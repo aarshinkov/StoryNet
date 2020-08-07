@@ -19,12 +19,12 @@ public class HomeController
     return "home";
   }
 
-  @GetMapping(value = "/printName")
-  public String printName(@RequestParam(name = "name", defaultValue = "John") String name,
-          @RequestParam(name = "age") Integer age, Model model)
+  @GetMapping(value = "/printName/{firstName}/{lastName}")
+  public String printName(@PathVariable("firstName") String firstName,
+          @PathVariable("lastName") String lastName, Model model)
   {
-    model.addAttribute("name", name);
-    model.addAttribute("age", age);
+    model.addAttribute("firstName", firstName);
+    model.addAttribute("lastName", lastName);
 
     return "printName";
   }
