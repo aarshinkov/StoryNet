@@ -16,23 +16,16 @@ public class HomeController
   @GetMapping(value = "/")
   public String home(Model model)
   {
-    
-    List<Integer> numbersList = new ArrayList<>();
-    numbersList.add(2);
-    numbersList.add(5);
-    numbersList.add(1);
-    numbersList.add(7);
-    numbersList.add(9);
-    numbersList.add(15);
-
-    List<String> names = new ArrayList<>();
-    names.add("Atanas");
-    names.add("Stefani");
-    names.add("Georgi");
-    
-    model.addAttribute("list", numbersList);
-    model.addAttribute("names", names);
-
     return "home";
+  }
+
+  @GetMapping(value = "/printName")
+  public String printName(@RequestParam(name = "name", defaultValue = "John") String name,
+          @RequestParam(name = "age") Integer age, Model model)
+  {
+    model.addAttribute("name", name);
+    model.addAttribute("age", age);
+
+    return "printName";
   }
 }

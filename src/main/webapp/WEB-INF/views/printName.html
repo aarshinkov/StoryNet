@@ -2,11 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>Home</title>
+    <title>Name</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
   <body>
-    <div>Home</div>
+    <div>Name</div>
+
+    <span>Hello, my name is</span>
+    <span th:text="${name}"></span>
+    <span>, I am</span>
+    <span th:text="${age}"></span>
+    <span>years old.</span>
   </body>
 </html>
