@@ -8,7 +8,14 @@
   </head>
   <body>
     <div>Home</div>
-    <p th:text="${name}">John Doe</p>
-    <p th:text="${result}"></p>
+
+    <p th:if="${age lt 12}">I am under 12</p>
+    <p th:if="${age ge 12 and age lt 18}">I am above 12 and below 18 years</p>
+    <p th:if="${age ge 18}">I am mature</p>
+
+    <div th:if="${age ge 12 and age lt 18}" th:remove="tag">
+      <p>Hello</p>
+      <p>I am above 12</p>
+    </div>
   </body>
 </html>

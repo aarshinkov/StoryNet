@@ -15,13 +15,9 @@ public class HomeController
   @GetMapping(value = "/")
   public String home(Model model)
   {
-    double a = 5.8;
-    double b = 8.2;
-
-    String name = "Georgi Petkov";
-    model.addAttribute("name", name);
-
-    model.addAttribute("result", a * b);
+    int age = 17;
+    
+    model.addAttribute("age", age);
 
     return "home";
   }
