@@ -9,13 +9,8 @@
   <body>
     <div>Home</div>
 
-    <p th:if="${age lt 12}">I am under 12</p>
-    <p th:if="${age ge 12 and age lt 18}">I am above 12 and below 18 years</p>
-    <p th:if="${age ge 18}">I am mature</p>
-
-    <div th:if="${age ge 12 and age lt 18}" th:remove="tag">
-      <p>Hello</p>
-      <p>I am above 12</p>
-    </div>
+    <p th:each="number : ${list}" th:text="${number}"></p>
+    
+    <p th:each="n : ${names}" th:text="${n}"></p>
   </body>
 </html>
