@@ -8,9 +8,10 @@
   </head>
   <body>
     <div>Test form 1</div>
-    <form th:action="@{/submitForm}">
+    <form th:action="@{/testForm1}" method="post">
       <input type="text" name="firstName"/>
       <input type="text" name="lastName"/>
+      <input type="password" name="password"/>
       <button type="submit">Submit</button>
     </form>
   </body>
