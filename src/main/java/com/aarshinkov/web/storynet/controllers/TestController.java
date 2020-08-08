@@ -18,14 +18,14 @@ public class TestController
     return "test/testForm";
   }
 
-  @PostMapping(value = "/testForm1")
+  @GetMapping(value = "/submitForm")
   public String submitForm1(@RequestParam(name = "firstName") String firstName,
           @RequestParam(name = "lastName") String lastName,
-          @RequestParam(name = "password") String password, Model model)
+          @RequestParam(name = "randomNumber") int number, Model model)
   {
     model.addAttribute("firstName", firstName);
     model.addAttribute("lastName", lastName);
-    model.addAttribute("password", password);
+    model.addAttribute("number", number);
 
     return "test/submitForm";
   }

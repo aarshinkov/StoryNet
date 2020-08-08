@@ -8,10 +8,12 @@
   </head>
   <body>
     <div>Test form 1</div>
-    <form th:action="@{/testForm1}" method="post">
-      <input type="text" name="firstName"/>
-      <input type="text" name="lastName"/>
-      <input type="password" name="password"/>
+    <form th:action="@{/submitForm}" method="get">
+      <input type="text" name="firstName" maxlength="10"
+             placeholder="First name" required="required"/>
+      <input type="text" name="lastName" maxlength="10" autofocus="autofocus"
+             placeholder="Last name" required="required"/>
+      <input type="number" min="1" max="10" step="2" name="randomNumber"/>
       <button type="submit">Submit</button>
     </form>
   </body>
