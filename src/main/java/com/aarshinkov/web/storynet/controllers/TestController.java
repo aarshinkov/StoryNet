@@ -34,6 +34,7 @@ public class TestController
     }
     
     model.addAttribute("person", person);
+    person.getFirstName();
 
     return "test/submitForm";
   }
