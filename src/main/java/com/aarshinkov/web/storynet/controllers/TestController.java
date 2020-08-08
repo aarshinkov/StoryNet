@@ -1,7 +1,10 @@
 package com.aarshinkov.web.storynet.controllers;
 
+import com.aarshinkov.web.storynet.validations.*;
+import javax.validation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
+import org.springframework.validation.*;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -13,19 +16,22 @@ import org.springframework.web.bind.annotation.*;
 public class TestController
 {
   @GetMapping(value = "/testForm1")
-  public String testForm1()
+  public String testForm1(Model model)
   {
+    model.addAttribute("person", new Person());
+
     return "test/testForm";
   }
 
-  @GetMapping(value = "/submitForm")
-  public String submitForm1(@RequestParam(name = "firstName") String firstName,
-          @RequestParam(name = "lastName") String lastName,
-          @RequestParam(name = "randomNumber") int number, Model model)
+  @PostMapping(value = "/testForm1")
+  public String submitForm1(@Valid Person person, BindingResult bindingResult, Model model)
   {
-    model.addAttribute("firstName", firstName);
-    model.addAttribute("lastName", lastName);
-    model.addAttribute("number", number);
+    if (bindingResult.hasErrors())
+    {
+      System.out.println("errors: " + bindingResult);
+      model.addAttribute("person", person);
+      return "test/testForm";
+    }
 
     return "test/submitForm";
   }
