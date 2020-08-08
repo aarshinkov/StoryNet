@@ -10,8 +10,17 @@
     <div>Test form 1</div>
     <form th:action="@{/testForm1}" method="post" th:object="${person}">
       <input type="text" th:field="*{firstName}"/>
+      <br/>
+      <span style="color: red;" th:errors="*{firstName}"></span>
+      <br/>
       <input type="text" th:field="*{lastName}"/>
+      <br/>
+      <span style="color: red;" th:errors="*{lastName}"></span>
+      <br/>
       <input type="number" th:field="*{age}"/>
+      <br/>
+      <span style="color: red;" th:errors="*{age}"></span>
+      <br/>
 
       <button type="submit">Submit</button>
     </form>

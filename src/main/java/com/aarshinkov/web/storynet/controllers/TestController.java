@@ -32,6 +32,8 @@ public class TestController
       model.addAttribute("person", person);
       return "test/testForm";
     }
+    
+    model.addAttribute("person", person);
 
     return "test/submitForm";
   }
