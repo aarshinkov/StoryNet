@@ -1,7 +1,10 @@
 package com.aarshinkov.web.storynet.controllers;
 
+import com.aarshinkov.web.storynet.entities.*;
+import com.aarshinkov.web.storynet.repositories.*;
 import com.aarshinkov.web.storynet.validations.*;
 import javax.validation.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.validation.*;
@@ -15,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class TestController
 {
+  @Autowired
+  private RolesRepository rolesRepository;
+
   @GetMapping(value = "/testForm1")
   public String testForm1(Model model)
   {
@@ -32,10 +38,17 @@ public class TestController
       model.addAttribute("person", person);
       return "test/testForm";
     }
-    
+
     model.addAttribute("person", person);
     person.getFirstName();
 
     return "test/submitForm";
+  }
+
+  @ResponseBody
+  @GetMapping(value = "/testRole/{rolename}")
+  public RoleEntity getRole(@PathVariable("rolename") String rolename)
+  {
+    return rolesRepository.findByRolename(rolename);
   }
 }
