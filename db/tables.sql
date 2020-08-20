@@ -14,3 +14,11 @@ CREATE TABLE users(
 	created_on timestamp not null default NOW(),
 	edited_on timestamp
 );
+
+CREATE TABLE roles(
+	rolename varchar(50) not null primary key,
+	created_on timestamp not null default NOW()
+);
+
+INSERT INTO roles (rolename) VALUES ('ADMIN');
+INSERT INTO roles (rolename) VALUES ('USER');
