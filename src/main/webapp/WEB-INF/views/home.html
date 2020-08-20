@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{templates/mainTemplate}">
   <head>
     <title>Home</title>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   </head>
   <body>
-    <div>Home</div>
-    <a href="#" th:href="@{/testForm1}">Test form</a>
+    <div layout:fragment="contentDiv">
+      <div>Home</div>
+      <a href="#" th:href="@{/testForm1}">Test form</a>
+    </div>
   </body>
 </html>
