@@ -21,6 +21,9 @@ public class TestController
   @Autowired
   private RolesRepository rolesRepository;
 
+  @Autowired
+  private UsersRepository usersRepository;
+
   @GetMapping(value = "/testForm1")
   public String testForm1(Model model)
   {
@@ -50,5 +53,12 @@ public class TestController
   public RoleEntity getRole(@PathVariable("rolename") String rolename)
   {
     return rolesRepository.findByRolename(rolename);
+  }
+
+  @ResponseBody
+  @GetMapping(value = "/testUser/{userId}")
+  public UserEntity getRole(@PathVariable("userId") Long userId)
+  {
+    return usersRepository.findByUserId(userId);
   }
 }

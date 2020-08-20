@@ -2,6 +2,7 @@ package com.aarshinkov.web.storynet.entities;
 
 import java.io.*;
 import java.sql.*;
+import java.util.*;
 import javax.persistence.*;
 import lombok.*;
 
@@ -41,4 +42,8 @@ public class UserEntity implements Serializable
 
   @Column(name = "edited_on")
   private Timestamp editedOn;
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "rolename"))
+  private List<RoleEntity> roles;
 }
