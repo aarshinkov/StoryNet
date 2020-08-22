@@ -33,3 +33,4 @@ build/
 .vscode/
 nb-configuration.xml
 src/main/webapp/META-INF/context.xml
+catalina.home_IS_UNDEFINED/
