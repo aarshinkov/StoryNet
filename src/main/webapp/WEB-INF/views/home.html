@@ -4,11 +4,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{templates/mainTemplate}">
   <head>
-    <title>Home</title>
+    <title th:text="#{nav.home}">Home</title>
   </head>
   <body>
     <div layout:fragment="contentDiv">
-      <div>Home</div>
+      <div th:text="#{nav.home}">Home</div>
       <a href="#" th:href="@{/testForm1}">Test form</a>
     </div>
   </body>
