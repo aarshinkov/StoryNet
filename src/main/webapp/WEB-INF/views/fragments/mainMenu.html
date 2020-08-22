@@ -25,6 +25,22 @@
             <li class="nav-item">
               <a class="nav-link" href="#" th:text="#{nav.signup}">Signup</a>
             </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="langDropdown" data-toggle="dropdown"
+                 aria-haspopup="true" aria-expanded="false">
+                <i class="flag-icon" th:classappend="'flag-icon-' + #{flag.curr}"></i>
+              </a>
+              <div class="dropdown-menu dropdown-primary" aria-labelledby="langDropdown">
+                <a class="dropdown-item" th:href="'?lang=en'">
+                  <i class="flag-icon flag-icon-gb"></i>
+                  <span th:text="#{nav.lang.en}">English</span>
+                </a>
+                <a class="dropdown-item" th:href="'?lang=bg'">
+                  <i class="flag-icon flag-icon-bg"></i>
+                  <span th:text="#{nav.lang.bg}">Bulgarian</span>
+                </a>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
