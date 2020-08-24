@@ -16,27 +16,37 @@
         <div class="form-row">
           <div class="form-group col-12 col-md-6">
             <label th:text="#{signup.firstname}">First name</label>
-            <input type="text" class="form-control" th:field="*{firstName}"/>
+            <input type="text" class="form-control" th:field="*{firstName}"
+                   th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'"/>
+            <span class="invalid-feedback" th:errors="*{firstName}">Error</span>
           </div>
           <div class="form-group col-12 col-md-6">
             <label th:text="#{signup.lastname}">Last name</label>
-            <input type="text" class="form-control" th:field="*{lastName}"/>
+            <input type="text" class="form-control" th:field="*{lastName}"
+                   th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'"/>
+            <span class="invalid-feedback" th:errors="*{lastName}">Error</span>
           </div>
         </div>
 
         <div class="form-group">
           <label th:text="#{signup.email}">Email</label>
-          <input type="email" class="form-control" th:field="*{email}"/>
+          <input type="email" class="form-control" th:field="*{email}"
+                 th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'"/>
+          <span class="invalid-feedback" th:errors="*{email}">Error</span>
         </div>
 
         <div class="form-row">
           <div class="form-group col-12 col-md-6">
             <label th:text="#{signup.password}">Password</label>
-            <input type="password" class="form-control" th:field="*{password}"/>
+            <input type="password" class="form-control" th:field="*{password}"
+                   th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'"/>
+            <span class="invalid-feedback" th:errors="*{password}">Error</span>
           </div>
           <div class="form-group col-12 col-md-6">
             <label th:text="#{signup.confirmpassword}">Confirm password</label>
-            <input type="password" class="form-control" th:field="*{confirmPassword}"/>
+            <input type="password" class="form-control" th:field="*{confirmPassword}"
+                   th:classappend="${#fields.hasErrors('confirmPassword')} ? 'is-invalid'"/>
+            <span class="invalid-feedback" th:errors="*{confirmPassword}">Error</span>
           </div>
         </div>
 
