@@ -27,8 +27,15 @@ public class LoginController
   }
 
   @PostMapping(value = "/signup")
-  public String signup(@ModelAttribute("user") @Valid UserCreateModel ucm, BindingResult bindingResult, Model model)
+  public String signup(@ModelAttribute("user") @Valid UserCreateModel ucm,
+          BindingResult bindingResult, Model model)
   {
+    if (!ucm.getPassword().equals(ucm.getConfirmPassword()))
+    {
+      bindingResult.rejectValue("password", "signup.password.nomatch");
+      bindingResult.rejectValue("confirmPassword", "signup.password.nomatch");
+    }
+
     if (bindingResult.hasErrors())
     {
       return "auth/signup";
