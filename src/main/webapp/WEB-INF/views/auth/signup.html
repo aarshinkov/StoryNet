@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{templates/mainTemplate}">
+  <head>
+    <title>Signup</title>
+  </head>
+  <body>
+    <div layout:fragment="contentDiv">
+      <!-- Default form register -->
+      <form class="border border-light p-5" th:action="@{/signup}" method="post">
+
+        <p class="h4 mb-4">Sign up</p>
+
+        <div class="form-row">
+          <div class="form-group col-12 col-md-6">
+            <label>First name</label>
+            <input type="text" class="form-control"/>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <label>Last name</label>
+            <input type="text" class="form-control"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="defaultRegisterFormEmail" class="form-control"/>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-12 col-md-6">
+            <label>Password</label>
+            <input type="password" class="form-control"/>
+          </div>
+          <div class="form-group col-12 col-md-6">
+            <label>Confirm password</label>
+            <input type="password" class="form-control"/>
+          </div>
+        </div>
+
+        <!-- Sign up button -->
+        <button class="btn btn-info btn-sm ml-0" type="submit">Sign in</button>
+
+        <hr/>
+
+        <!-- Terms of service -->
+        <div>
+          <span>Already a member?</span>
+          <a href="#" th:href="@{/login}">Login</a>
+        </div>
+
+      </form>
+      <!-- Default form register -->
+    </div>
+  </body>
+</html>
