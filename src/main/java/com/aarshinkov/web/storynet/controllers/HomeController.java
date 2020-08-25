@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class HomeController
 {
   private final Logger LOG = LoggerFactory.getLogger(getClass());
-  
+
   @GetMapping(value = "/")
   public String home(Model model)
-  {    
+  {
+    model.addAttribute("globalMenu", "home");
+
     return "home";
   }
 

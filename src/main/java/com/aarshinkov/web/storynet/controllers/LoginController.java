@@ -29,6 +29,8 @@ public class LoginController
   {
     model.addAttribute("user", new UserCreateModel());
 
+    model.addAttribute("globalMenu", "signup");
+
     return "auth/signup";
   }
 
@@ -44,11 +46,13 @@ public class LoginController
 
     if (bindingResult.hasErrors())
     {
+      model.addAttribute("globalMenu", "signup");
+      
       return "auth/signup";
     }
 
     UserEntity createdUser = userService.createUser(ucm);
-    
+
     return "redirect:/";
   }
 }
