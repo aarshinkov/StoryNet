@@ -4,7 +4,10 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import lombok.*;
+import org.hibernate.annotations.*;
 
 /**
  *
@@ -18,6 +21,7 @@ import lombok.*;
 @ToString
 @Entity
 @Table(name = "users")
+@DynamicInsert
 public class UserEntity implements Serializable
 {
   @Id

@@ -1,8 +1,11 @@
 package com.aarshinkov.web.storynet.controllers;
 
+import com.aarshinkov.web.storynet.entities.*;
 import com.aarshinkov.web.storynet.models.users.*;
+import com.aarshinkov.web.storynet.services.*;
 import javax.validation.*;
 import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.validation.*;
@@ -17,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController
 {
   private final Logger LOG = LoggerFactory.getLogger(getClass());
+
+  @Autowired
+  private UserService userService;
 
   @GetMapping(value = "/signup")
   public String prepareSignup(Model model)
@@ -41,6 +47,8 @@ public class LoginController
       return "auth/signup";
     }
 
-    return null;
+    UserEntity createdUser = userService.createUser(ucm);
+    
+    return "redirect:/";
   }
 }
