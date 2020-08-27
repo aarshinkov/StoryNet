@@ -1,15 +1,19 @@
 package com.aarshinkov.web.storynet.controllers;
 
+import com.aarshinkov.web.storynet.base.*;
 import com.aarshinkov.web.storynet.entities.*;
 import com.aarshinkov.web.storynet.models.users.*;
 import com.aarshinkov.web.storynet.services.*;
 import javax.validation.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.context.*;
+import org.springframework.context.i18n.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.validation.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.*;
 
 /**
  *
@@ -17,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 1.0.0
  */
 @Controller
-public class LoginController
+public class LoginController extends Base
 {
   private final Logger LOG = LoggerFactory.getLogger(getClass());
 
@@ -36,7 +40,7 @@ public class LoginController
 
   @PostMapping(value = "/signup")
   public String signup(@ModelAttribute("user") @Valid UserCreateModel ucm,
-          BindingResult bindingResult, Model model)
+          BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model)
   {
     if (!ucm.getPassword().equals(ucm.getConfirmPassword()))
     {
@@ -47,11 +51,19 @@ public class LoginController
     if (bindingResult.hasErrors())
     {
       model.addAttribute("globalMenu", "signup");
-      
+
       return "auth/signup";
     }
 
-    UserEntity createdUser = userService.createUser(ucm);
+    try
+    {
+      UserEntity createdUser = userService.createUser(ucm);
+      redirectAttributes.addFlashAttribute("msgSuccess", getMessage("signup.success", createdUser.getFirstName() + " " + createdUser.getLastName()));
+    }
+    catch (Exception e)
+    {
+      redirectAttributes.addFlashAttribute("msgError", "Error saving users");
+    }
 
     return "redirect:/";
   }
