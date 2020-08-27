@@ -62,7 +62,7 @@ public class LoginController extends Base
     }
     catch (Exception e)
     {
-      redirectAttributes.addFlashAttribute("msgError", "Error saving users");
+      redirectAttributes.addFlashAttribute("msgError", getMessage("signup.error"));
     }
 
     return "redirect:/";
