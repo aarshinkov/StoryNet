@@ -6,6 +6,7 @@ import com.aarshinkov.web.storynet.repositories.*;
 import java.util.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.*;
 
 /**
@@ -45,5 +46,18 @@ public class UserServiceImpl implements UserService
     UserEntity createdUser = usersRepository.save(user);
 
     return createdUser;
+  }
+
+  @Override
+  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException
+  {
+    UserEntity user = usersRepository.findByEmail(email);
+
+    if (user == null)
+    {
+      throw new UsernameNotFoundException(email);
+    }
+
+    return user;
   }
 }

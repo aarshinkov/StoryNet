@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.*;
+import org.springframework.security.core.*;
+import org.springframework.security.core.authority.*;
+import org.springframework.security.core.userdetails.*;
 
 /**
  *
@@ -22,7 +25,7 @@ import org.hibernate.annotations.*;
 @Entity
 @Table(name = "users")
 @DynamicInsert
-public class UserEntity implements Serializable
+public class UserEntity implements UserDetails, Serializable
 {
   @Id
   @SequenceGenerator(name = "seq_gen_user", sequenceName = "s_users", allocationSize = 1)
@@ -50,4 +53,47 @@ public class UserEntity implements Serializable
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "rolename"))
   private List<RoleEntity> roles;
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities()
+  {
+    List<GrantedAuthority> authorities = new ArrayList<>();
+
+    for (RoleEntity role : roles)
+    {
+      authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRolename()));
+    }
+
+    return authorities;
+  }
+
+  @Override
+  public String getUsername()
+  {
+    return this.email;
+  }
+
+  @Override
+  public boolean isAccountNonExpired()
+  {
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked()
+  {
+    return true;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired()
+  {
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled()
+  {
+    return true;
+  }
 }
