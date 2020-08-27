@@ -8,6 +8,8 @@
   </head>
   <body>
     <div layout:fragment="contentDiv">
+      <div th:replace="fragments/messages :: #notify"></div>
+
       <div th:text="#{nav.home}">Home</div>
       <a href="#" th:href="@{/testForm1}">Test form</a>
     </div>

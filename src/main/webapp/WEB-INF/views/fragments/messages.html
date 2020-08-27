@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <div id="notify">
+      <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var successMsg = /*[[${msgSuccess ne null ? msgSuccess : session.msgSuccess}]]*/;
+                var errorMsg = /*[[${msgError ne null ? msgError : session.msgError}]]*/;
+                var infoMsg = /*[[${msgInfo ne null ? msgInfo : session.msgInfo}]]*/;
+        /*]]>*/
+
+        if (successMsg !== null) {
+          notifySuccess();
+        }
+
+        if (errorMsg !== null) {
+          notifyError();
+        }
+
+        if (infoMsg !== null) {
+          notifyInfo();
+        }
+
+        function notifySuccess() {
+          $.notify(successMsg, {
+            position: 'top left',
+            style: 'bootstrap',
+            className: 'success'
+          })
+        }
+
+        function notifyError() {
+          $.notify(errorMsg, {
+            position: 'top left',
+            style: 'bootstrap',
+            className: 'error'
+          })
+        }
+
+        function notifyInfo() {
+          $.notify(infoMsg, {
+            position: 'top left',
+            style: 'bootstrap',
+            className: 'info'
+          })
+        }
+      </script>
+    </div>
+  </body>
+</html>
