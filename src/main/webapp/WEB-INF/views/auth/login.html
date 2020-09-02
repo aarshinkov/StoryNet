@@ -8,7 +8,31 @@
   </head>
   <body>
     <div layout:fragment="contentDiv">
-      <h2>Login</h2>
+      <form class="border border-light p-5" action="authentication" method="post">
+
+        <p class="h4 mb-4" th:text="#{login.header}">Login</p>
+
+        <div class="form-group">
+          <label th:text="#{login.email}">Login</label>
+          <input type="email" class="form-control" name="email"/>
+        </div>
+        
+        <div class="form-group">
+          <label th:text="#{login.password}">Password</label>
+          <input type="password" class="form-control" name="password"/>
+        </div>
+
+        <!-- Login button -->
+        <button class="btn btn-light-green btn-sm ml-0" type="submit">
+          <i class="fas fa-sign-in-alt"></i>
+          <span th:text="#{btn.login}">Login</span>
+        </button>
+
+        <hr/>
+
+        <div th:utext="#{login.noregistration(@{/signup})}"></div>
+
+      </form>
     </div>
   </body>
 </html>

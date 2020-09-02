@@ -27,8 +27,10 @@ public class LoginController extends Base
   private UserService userService;
 
   @GetMapping(value = "/login")
-  public String prepareLogin()
+  public String prepareLogin(Model model)
   {
+    model.addAttribute("globalMenu", "login");
+    
     return "auth/login";
   }
 

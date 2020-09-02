@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     http.csrf().disable()
             .authorizeRequests()
             .antMatchers("/", "/home").permitAll()
-            .antMatchers("/signup").anonymous()
+            .antMatchers("/login", "/signup").anonymous()
             .and()
             .formLogin()
             .loginProcessingUrl("/authentication")
@@ -64,8 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     String password = passwordEncoder.encode("Test-1234");
 
     auth.inMemoryAuthentication()
-            .withUser("aarshinkov").password(password).roles("ADMIN", "USER")
+            .withUser("aarshinkov@storynet.com").password(password).roles("ADMIN", "USER")
             .and()
-            .withUser("snikolov").password(password).roles("USER");
+            .withUser("snikolov@storynet.com").password(password).roles("USER");
   }
 }
