@@ -7,8 +7,6 @@ import com.aarshinkov.web.storynet.services.*;
 import javax.validation.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.context.*;
-import org.springframework.context.i18n.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.validation.*;
@@ -27,6 +25,12 @@ public class LoginController extends Base
 
   @Autowired
   private UserService userService;
+
+  @GetMapping(value = "/login")
+  public String prepareLogin()
+  {
+    return "auth/login";
+  }
 
   @GetMapping(value = "/signup")
   public String prepareSignup(Model model)
