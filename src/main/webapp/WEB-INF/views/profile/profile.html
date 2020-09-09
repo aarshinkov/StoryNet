@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{templates/mainTemplate}">
+  <head>
+    <title th:text="#{app.title(${user.getFullName()})}">John Doe</title>
+  </head>
+  <body>
+    <div layout:fragment="contentDiv">
+
+      <div th:replace="fragments/messages :: #notify"></div>
+
+      <div class="row">
+        <div class="col-12 col-md-3">
+          <p>Menu</p>
+        </div>
+        <div class="col-12 col-md-9">
+          <h3>Profile</h3>
+          <hr/>
+
+          <div class="row">
+            <div class="col-12 col-md-3">
+              <p class="font-weight-bold">First name</p>
+            </div>
+            <div class="col-12 col-md-9">
+              <p th:text="${user.firstName}">John</p>
+            </div>
+          </div>
+          <div class="row" th:if="${user.lastName ne null}">
+            <div class="col-12 col-md-3">
+              <p class="font-weight-bold">Last name</p>
+            </div>
+            <div class="col-12 col-md-9">
+              <p th:text="${user.lastName}">Doe</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-3">
+              <p class="font-weight-bold">Email</p>
+            </div>
+            <div class="col-12 col-md-9">
+              <p th:text="${user.email}">test@gmail.com</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-3">
+              <p class="font-weight-bold">Created on</p>
+            </div>
+            <div class="col-12 col-md-9">
+              <p th:text="${#dates.format(user.createdOn, #messages.msg('format.datetime1'))}">Created on</p>
+            </div>
+          </div>
+          <div class="row" th:if="${user.editedOn ne null}">
+            <div class="col-12 col-md-3">
+              <p class="font-weight-bold">Edited on</p>
+            </div>
+            <div class="col-12 col-md-9">
+              <p th:text="${#dates.format(user.editedOn, #messages.msg('format.datetime1'))}">Edited on</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-3">
+              <p class="font-weight-bold">Roles</p>
+            </div>
+            <div class="col-12 col-md-9">
+              <span th:each="r : ${user.roles}">
+                <span class="badge badge-danger" th:text="${r.rolename}" th:if="${r.rolename eq 'ADMIN'}">Admin</span>
+                <span class="badge badge-success" th:text="${r.rolename}" th:if="${r.rolename eq 'USER'}">User</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

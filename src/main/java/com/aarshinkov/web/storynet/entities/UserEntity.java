@@ -69,6 +69,11 @@ public class UserEntity implements UserDetails, Serializable
     return sb.toString();
   }
 
+  public String getFullName()
+  {
+    return (lastName != null) ? firstName + ' ' + lastName : firstName;
+  }
+
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities()
   {
