@@ -7,6 +7,7 @@ import java.util.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.core.userdetails.*;
+import org.springframework.security.crypto.password.*;
 import org.springframework.stereotype.*;
 
 /**
@@ -24,6 +25,9 @@ public class UserServiceImpl implements UserService
 
   @Autowired
   private UsersRepository usersRepository;
+  
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
   @Override
   public UserEntity createUser(UserCreateModel ucm)
@@ -32,8 +36,10 @@ public class UserServiceImpl implements UserService
     user.setFirstName(ucm.getFirstName());
     user.setLastName(ucm.getLastName());
     user.setEmail(ucm.getEmail());
+    
+    String encodedPassword = passwordEncoder.encode(ucm.getPassword());
 
-    user.setPassword(ucm.getPassword());
+    user.setPassword(encodedPassword);
 
     List<RoleEntity> roles = new ArrayList<>();
 
