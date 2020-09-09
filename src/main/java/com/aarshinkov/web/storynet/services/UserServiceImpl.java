@@ -25,9 +25,22 @@ public class UserServiceImpl implements UserService
 
   @Autowired
   private UsersRepository usersRepository;
-  
+
   @Autowired
   private PasswordEncoder passwordEncoder;
+
+  @Override
+  public UserEntity getUserByUserId(Long userId) throws Exception
+  {
+    UserEntity storedUser = usersRepository.findByUserId(userId);
+
+    if (storedUser == null)
+    {
+      throw new Exception("User with ID " + userId + " does not exist");
+    }
+
+    return storedUser;
+  }
 
   @Override
   public UserEntity createUser(UserCreateModel ucm)
@@ -36,7 +49,7 @@ public class UserServiceImpl implements UserService
     user.setFirstName(ucm.getFirstName());
     user.setLastName(ucm.getLastName());
     user.setEmail(ucm.getEmail());
-    
+
     String encodedPassword = passwordEncoder.encode(ucm.getPassword());
 
     user.setPassword(encodedPassword);

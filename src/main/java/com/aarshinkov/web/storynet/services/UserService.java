@@ -11,5 +11,7 @@ import org.springframework.security.core.userdetails.*;
  */
 public interface UserService extends UserDetailsService
 {
+  UserEntity getUserByUserId(Long userId) throws Exception;
+  
   UserEntity createUser(UserCreateModel ucm);
 }
