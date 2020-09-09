@@ -31,7 +31,7 @@ public class CustomAuthSuccessHandler extends SavedRequestAwareAuthenticationSuc
 
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-          FilterChain chain, Authentication authentication) throws IOException, ServletException
+          Authentication authentication) throws IOException, ServletException
   {
     LOG.debug("Authentication successful");
 

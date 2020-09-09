@@ -1,5 +1,7 @@
 package com.aarshinkov.web.storynet.security;
 
+import com.aarshinkov.web.storynet.services.*;
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
 import org.springframework.security.config.annotation.authentication.builders.*;
@@ -21,14 +23,22 @@ import org.springframework.security.web.authentication.logout.*;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
+  private final Logger LOG = LoggerFactory.getLogger(getClass());
+  
   @Autowired
   private AuthenticationSuccessHandler authSuccessHandler;
+  
+  @Autowired
+  private AuthenticationFailureHandler authFailureHandler;
 
   @Autowired
   private AccessDeniedHandler accessDeniedHandler;
 
   @Autowired
   private LogoutSuccessHandler logoutSuccessHandler;
+  
+  @Autowired
+  private UserService userService;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -47,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
             .usernameParameter("email")
             .passwordParameter("password")
             .successHandler(authSuccessHandler)
+            .failureHandler(authFailureHandler)
             .and()
             .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
             .and()
@@ -60,12 +71,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception
-  {
-    String password = passwordEncoder.encode("Test-1234");
+  {    
+    auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
 
-    auth.inMemoryAuthentication()
-            .withUser("aarshinkov@storynet.com").password(password).roles("ADMIN", "USER")
-            .and()
-            .withUser("snikolov@storynet.com").password(password).roles("USER");
+//    auth.inMemoryAuthentication()
+//            .withUser("aarshinkov@storynet.com").password(password).roles("ADMIN", "USER")
+//            .and()
+//            .withUser("snikolov@storynet.com").password(password).roles("USER");
   }
 }

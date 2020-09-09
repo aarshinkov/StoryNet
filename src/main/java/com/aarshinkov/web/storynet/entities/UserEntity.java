@@ -21,7 +21,7 @@ import org.springframework.security.core.userdetails.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 @Entity
 @Table(name = "users")
 @DynamicInsert
@@ -53,6 +53,21 @@ public class UserEntity implements UserDetails, Serializable
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "rolename"))
   private List<RoleEntity> roles;
+
+  @Override
+  public String toString()
+  {
+    StringBuilder sb = new StringBuilder();
+    sb.append("UserEntity{userId=").append(userId);
+    sb.append(", email=").append(email);
+    sb.append(", firstName=").append(firstName);
+    sb.append(", lastName=").append(lastName);
+    sb.append(", createdOn=").append(createdOn);
+    sb.append(", editedOn=").append(editedOn);
+    sb.append(", roles=").append(roles);
+    sb.append('}');
+    return sb.toString();
+  }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities()
