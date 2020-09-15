@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{templates/mainTemplate}">
+  <head>
+    <title th:text="#{app.title(${uem.getFullName()})}">John Doe</title>
+  </head>
+  <body>
+    <div layout:fragment="contentDiv">
+
+      <div th:replace="fragments/messages :: #notify"></div>
+
+      <div class="row">
+        <div class="col-12 col-md-3">
+          <div th:replace="profile/submenu :: #profileSideMenu"></div>
+        </div>
+        <div class="col-12 col-md-9">
+          <h3 th:text="#{profile.edit.header}">Edit profile</h3>
+          <hr/>
+
+          <form th:action="@{/profile/edit}" method="post" th:object="${uem}">
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <label class="font-weight-bold" th:text="#{profile.firstname}">First name</label>
+                  <input type="text" class="form-control" th:field="*{firstName}"
+                         th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'"/>
+                  <span class="invalid-feedback" th:errors="*{firstName}">Error</span>
+                </div>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <label class="font-weight-bold" th:text="#{profile.lastname}">Last name</label>
+                  <input type="text" class="form-control" th:field="*{lastName}"
+                         th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'"/>
+                  <span class="invalid-feedback" th:errors="*{lastName}">Error</span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="font-weight-bold" th:text="#{profile.email}">Email</label>
+              <input type="email" class="form-control" th:field="*{email}"
+                     th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'"/>
+              <span class="invalid-feedback" th:errors="*{email}">Error</span>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-md ml-0">
+              <i class="fas fa-save"></i>
+              <span th:text="#{btn.save}">Save</span>
+            </button>
+            <a href="#" th:href="@{/profile}" class="btn btn-outline-dark btn-md ml-0">
+              <i class="fas fa-arrow-left"></i>
+              <span th:text="#{btn.back}">Back</span>
+            </a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
