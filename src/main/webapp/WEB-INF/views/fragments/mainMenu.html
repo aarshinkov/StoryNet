@@ -27,13 +27,17 @@
                 <span th:text="${session.user}">John Doe</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right dropdown-primary" aria-labelledby="profileDropdown">
-                <a class="dropdown-item" th:href="@{/profile}">
+                <a class="dropdown-item" th:classappend="${submenu eq 'profile'} ? 'active'" th:href="@{/profile}">
                   <i class="fas fa-user-alt"></i>
                   <span th:text="#{nav.profile}">Profile</span>
                 </a>
+                <a class="dropdown-item" th:classappend="${submenu eq 'mystories'} ? 'active'" th:href="@{/stories/my}">
+                  <i class="far fa-file-alt"></i>
+                  <span th:text="#{nav.profile.stories}">My stories</span>
+                </a>
                 <a class="dropdown-item" th:href="@{/settings}">
                   <i class="fas fa-cogs"></i>
-                  <span th:text="#{nav.settings}">Settings</span>
+                  <span th:text="#{nav.profile.settings}">Settings</span>
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item text-danger" th:href="@{/logout}">

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+  <body>
+    <div id="profileSideMenu">
+      <h5 th:text="#{submenu.header}">Menu</h5>
+      <hr/>
+      <div class="list-group list-group-flush">
+        <a href="#" class="list-group-item list-group-item-action" th:classappend="${submenu eq 'profile'} ? 'active'"
+           th:href="@{/profile}">
+          <i class="fas fa-user-circle"></i>
+          <span th:text="#{nav.profile}">Profile</span>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action" th:href="@{/stories/my}">
+          <i class="far fa-file-alt"></i>
+          <span th:text="#{nav.profile.stories}">My stories</span>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action" th:href="@{/settings}">
+          <i class="fas fa-cogs"></i>
+          <span th:text="#{nav.profile.settings}">Settings</span>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action text-danger" th:href="@{/logout}">
+          <i class="fas fa-sign-out-alt"></i>
+          <span th:text="#{nav.logout}">Logout</span>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

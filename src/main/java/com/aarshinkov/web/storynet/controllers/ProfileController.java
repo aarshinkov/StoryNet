@@ -30,6 +30,9 @@ public class ProfileController extends Base
   public String profile(HttpServletRequest request, Model model)
   {
     long userId = (long) systemService.getSessionAttribute(request, "userId");
+    
+    model.addAttribute("globalMenu", "profile");
+    model.addAttribute("submenu", "profile");
 
     try
     {
