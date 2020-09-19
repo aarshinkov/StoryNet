@@ -45,6 +45,8 @@
               <span class="invalid-feedback" th:errors="*{email}">Error</span>
             </div>
             
+            <input type="hidden" th:field="*{userId}"/>
+            
             <button type="submit" class="btn btn-primary btn-md ml-0">
               <i class="fas fa-save"></i>
               <span th:text="#{btn.save}">Save</span>

@@ -3,6 +3,7 @@ package com.aarshinkov.web.storynet.services;
 import com.aarshinkov.web.storynet.entities.*;
 import com.aarshinkov.web.storynet.models.users.*;
 import com.aarshinkov.web.storynet.repositories.*;
+import java.sql.*;
 import java.util.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
@@ -65,6 +66,27 @@ public class UserServiceImpl implements UserService
     UserEntity createdUser = usersRepository.save(user);
 
     return createdUser;
+  }
+
+  @Override
+  public UserEntity updateUser(UserEditModel uem) throws Exception
+  {
+    UserEntity storedUser = usersRepository.findByUserId(uem.getUserId());
+
+    if (storedUser == null)
+    {
+      throw new Exception("User with ID " + uem.getUserId() + " does not exist");
+    }
+
+    storedUser.setFirstName(uem.getFirstName());
+    storedUser.setLastName(uem.getLastName());
+    storedUser.setEmail(uem.getEmail());
+
+    storedUser.setEditedOn(new Timestamp(System.currentTimeMillis()));
+
+    UserEntity updatedUser = usersRepository.save(storedUser);
+
+    return updatedUser;
   }
 
   @Override

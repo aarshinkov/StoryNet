@@ -4,14 +4,16 @@ import com.aarshinkov.web.storynet.base.*;
 import com.aarshinkov.web.storynet.entities.*;
 import com.aarshinkov.web.storynet.models.users.*;
 import com.aarshinkov.web.storynet.services.*;
-import java.util.logging.*;
 import javax.servlet.http.*;
+import javax.validation.*;
 import org.slf4j.*;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
+import org.springframework.validation.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.*;
 
 /**
  *
@@ -68,5 +70,31 @@ public class ProfileController extends Base
     model.addAttribute("submenu", "profile");
 
     return "profile/edit";
+  }
+
+  @PostMapping(value = "/profile/edit")
+  public String editProfile(@ModelAttribute("uem") @Valid UserEditModel uem, BindingResult bindingResult,
+          RedirectAttributes redirectAttributes, Model model)
+  {
+    if (bindingResult.hasErrors())
+    {
+      model.addAttribute("globalMenu", "profile");
+      model.addAttribute("submenu", "profile");
+      return "profile/edit";
+    }
+
+    try
+    {
+      UserEntity updatedUser = userService.updateUser(uem);
+      
+      redirectAttributes.addFlashAttribute("msgSuccess", getMessage("profile.edit.success"));
+    }
+    catch (Exception e)
+    {
+      LOG.error("Error updating user", e);
+      redirectAttributes.addFlashAttribute("msgError", getMessage("profile.edit.error"));
+    }
+
+    return "redirect:/profile";
   }
 }
