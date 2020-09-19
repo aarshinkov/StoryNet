@@ -16,4 +16,6 @@ public interface UserService extends UserDetailsService
   UserEntity createUser(UserCreateModel ucm);
   
   UserEntity updateUser(UserEditModel uem) throws Exception;
+  
+  boolean isUserExistByEmail(String email);
 }

@@ -74,8 +74,13 @@ public class ProfileController extends Base
 
   @PostMapping(value = "/profile/edit")
   public String editProfile(@ModelAttribute("uem") @Valid UserEditModel uem, BindingResult bindingResult,
-          RedirectAttributes redirectAttributes, Model model)
+          HttpServletRequest request, RedirectAttributes redirectAttributes, Model model)
   {
+    if (userService.isUserExistByEmail(uem.getEmail()))
+    {
+      bindingResult.rejectValue("email", "profile.edit.email.exists");
+    }
+
     if (bindingResult.hasErrors())
     {
       model.addAttribute("globalMenu", "profile");
@@ -86,7 +91,9 @@ public class ProfileController extends Base
     try
     {
       UserEntity updatedUser = userService.updateUser(uem);
-      
+
+      systemService.changeLoggedUserInfo(request, updatedUser);
+
       redirectAttributes.addFlashAttribute("msgSuccess", getMessage("profile.edit.success"));
     }
     catch (Exception e)

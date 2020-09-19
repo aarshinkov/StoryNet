@@ -90,6 +90,14 @@ public class UserServiceImpl implements UserService
   }
 
   @Override
+  public boolean isUserExistByEmail(String email)
+  {
+    UserEntity storedUser = usersRepository.findByEmail(email);
+    
+    return storedUser != null;
+  }
+
+  @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException
   {
     UserEntity user = usersRepository.findByEmail(email);

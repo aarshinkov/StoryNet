@@ -1,5 +1,6 @@
 package com.aarshinkov.web.storynet.services;
 
+import com.aarshinkov.web.storynet.entities.*;
 import javax.servlet.http.*;
 
 /**
@@ -10,4 +11,6 @@ import javax.servlet.http.*;
 public interface SystemService
 {
   Object getSessionAttribute(HttpServletRequest request, String attributeName);
+  
+  void changeLoggedUserInfo(HttpServletRequest request, UserEntity user);
 }
