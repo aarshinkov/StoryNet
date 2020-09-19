@@ -19,5 +19,7 @@ public interface UserService extends UserDetailsService
   
   boolean isUserExistByEmail(String email);
   
+  UserEntity changePassword(ChangePasswordModel cpm) throws Exception;
+  
   boolean isPasswordMatch(Long userId, String password);
 }

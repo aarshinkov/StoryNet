@@ -120,7 +120,7 @@ public class ProfileController extends Base
 
   @PostMapping(value = "/changePassword")
   public String changePassword(@ModelAttribute("cpm") @Valid ChangePasswordModel cpm,
-          BindingResult bindingResult, Model model)
+          BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model)
   {
     if (!cpm.getNewPassword().equals(cpm.getConfirmPassword()))
     {
@@ -142,8 +142,17 @@ public class ProfileController extends Base
       return "profile/settings";
     }
     
-    // TODO implement change password logic
+    try
+    {
+      UserEntity updatedUser = userService.changePassword(cpm);
+      redirectAttributes.addFlashAttribute("msgSuccess", getMessage("profile.settings.pass.success"));
+    }
+    catch (Exception e)
+    {
+      LOG.error("Error changing password", e);
+      redirectAttributes.addFlashAttribute("msgError", getMessage("profile.settings.pass.error"));
+    }
 
-    return null;
+    return "redirect:/profile";
   }
 }

@@ -98,10 +98,29 @@ public class UserServiceImpl implements UserService
   }
 
   @Override
+  public UserEntity changePassword(ChangePasswordModel cpm) throws Exception
+  {
+    UserEntity storedUser = usersRepository.findByUserId(cpm.getUserId());
+
+    if (storedUser == null)
+    {
+      throw new Exception("User with ID " + cpm.getUserId() + " does not exist");
+    }
+
+    String encodedPassword = passwordEncoder.encode(cpm.getNewPassword());
+
+    storedUser.setPassword(encodedPassword);
+
+    UserEntity updatedUser = usersRepository.save(storedUser);
+
+    return updatedUser;
+  }
+
+  @Override
   public boolean isPasswordMatch(Long userId, String password)
   {
     UserEntity storedUser = usersRepository.findByUserId(userId);
-    
+
     return passwordEncoder.matches(password, storedUser.getPassword());
   }
 
