@@ -117,4 +117,33 @@ public class ProfileController extends Base
 
     return "profile/settings";
   }
+
+  @PostMapping(value = "/changePassword")
+  public String changePassword(@ModelAttribute("cpm") @Valid ChangePasswordModel cpm,
+          BindingResult bindingResult, Model model)
+  {
+    if (!cpm.getNewPassword().equals(cpm.getConfirmPassword()))
+    {
+      bindingResult.rejectValue("newPassword", "errors.password.nomatch");
+      bindingResult.rejectValue("confirmPassword", "errors.password.nomatch");
+    }
+
+    boolean isPasswordMatch = userService.isPasswordMatch(cpm.getUserId(), cpm.getCurrentPassword());
+
+    if (!isPasswordMatch)
+    {
+      bindingResult.rejectValue("currentPassword", "errors.password.current");
+    }
+
+    if (bindingResult.hasErrors())
+    {
+      model.addAttribute("globalMenu", "profile");
+      model.addAttribute("submenu", "settings");
+      return "profile/settings";
+    }
+    
+    // TODO implement change password logic
+
+    return null;
+  }
 }

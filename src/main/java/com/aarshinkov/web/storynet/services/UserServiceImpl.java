@@ -93,8 +93,16 @@ public class UserServiceImpl implements UserService
   public boolean isUserExistByEmail(String email)
   {
     UserEntity storedUser = usersRepository.findByEmail(email);
-    
+
     return storedUser != null;
+  }
+
+  @Override
+  public boolean isPasswordMatch(Long userId, String password)
+  {
+    UserEntity storedUser = usersRepository.findByUserId(userId);
+    
+    return passwordEncoder.matches(password, storedUser.getPassword());
   }
 
   @Override

@@ -18,4 +18,6 @@ public interface UserService extends UserDetailsService
   UserEntity updateUser(UserEditModel uem) throws Exception;
   
   boolean isUserExistByEmail(String email);
+  
+  boolean isPasswordMatch(Long userId, String password);
 }
