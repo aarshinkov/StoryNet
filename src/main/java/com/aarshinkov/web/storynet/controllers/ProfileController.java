@@ -104,4 +104,17 @@ public class ProfileController extends Base
 
     return "redirect:/profile";
   }
+
+  @GetMapping(value = "/settings")
+  public String prepareSettings(Model model)
+  {
+    ChangePasswordModel cpm = new ChangePasswordModel();
+
+    model.addAttribute("cpm", cpm);
+
+    model.addAttribute("globalMenu", "profile");
+    model.addAttribute("submenu", "settings");
+
+    return "profile/settings";
+  }
 }
