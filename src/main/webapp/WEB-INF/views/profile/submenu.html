@@ -12,11 +12,13 @@
           <i class="fas fa-user-circle"></i>
           <span th:text="#{nav.profile}">Profile</span>
         </a>
-        <a href="#" class="list-group-item list-group-item-action" th:href="@{/stories/my}">
+        <a href="#" class="list-group-item list-group-item-action" th:classappend="${submenu eq 'mystories'} ? 'active'"
+           th:href="@{/stories/my}">
           <i class="far fa-file-alt"></i>
           <span th:text="#{nav.profile.stories}">My stories</span>
         </a>
-        <a href="#" class="list-group-item list-group-item-action" th:href="@{/settings}">
+        <a href="#" class="list-group-item list-group-item-action" th:classappend="${submenu eq 'settings'} ? 'active'"
+           th:href="@{/settings}">
           <i class="fas fa-cogs"></i>
           <span th:text="#{nav.profile.settings}">Settings</span>
         </a>

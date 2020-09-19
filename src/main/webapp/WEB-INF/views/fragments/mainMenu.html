@@ -35,7 +35,7 @@
                   <i class="far fa-file-alt"></i>
                   <span th:text="#{nav.profile.stories}">My stories</span>
                 </a>
-                <a class="dropdown-item" th:href="@{/settings}">
+                <a class="dropdown-item" th:classappend="${submenu eq 'settings'} ? 'active'" th:href="@{/settings}">
                   <i class="fas fa-cogs"></i>
                   <span th:text="#{nav.profile.settings}">Settings</span>
                 </a>
