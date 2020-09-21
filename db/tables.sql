@@ -62,3 +62,23 @@ INSERT INTO categories (name) VALUES ('family');
 INSERT INTO categories (name) VALUES ('health');
 INSERT INTO categories (name) VALUES ('education');
 INSERT INTO categories (name) VALUES ('sport');
+
+CREATE SEQUENCE public.s_stories
+	INCREMENT 1
+	START 1;
+	
+ALTER SEQUENCE public.s_stories
+	OWNER TO storynet_user;
+	
+CREATE TABLE stories(
+	story_id int not null primary key default nextval('s_stories'),
+	title varchar(100) not null,
+	story text not null,
+	rating numeric not null default 0,
+	visits int not null default 0,
+	anonymous boolean not null default true,
+	user_id int not null references users(user_id) ON DELETE CASCADE,
+	category_id int not null references categories(category_id) ON DELETE CASCADE,
+	created_on timestamp not null default NOW(),
+	edited_on timestamp
+);
