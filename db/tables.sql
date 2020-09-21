@@ -42,3 +42,23 @@ CREATE TABLE user_roles(
 
 INSERT INTO user_roles (user_id, rolename) VALUES (1, 'ADMIN');
 INSERT INTO user_roles (user_id, rolename) VALUES (2, 'USER');
+
+CREATE SEQUENCE public.s_categories
+	INCREMENT 1
+	START 1;
+	
+ALTER SEQUENCE public.s_categories
+	OWNER TO storynet_user;
+	
+CREATE TABLE categories(
+	category_id int not null primary key default nextval('s_categories'),
+	name varchar(50) not null,
+	created_on timestamp not null default NOW()
+);
+
+INSERT INTO categories (name) VALUES ('love');
+INSERT INTO categories (name) VALUES ('teen');
+INSERT INTO categories (name) VALUES ('family');
+INSERT INTO categories (name) VALUES ('health');
+INSERT INTO categories (name) VALUES ('education');
+INSERT INTO categories (name) VALUES ('sport');
