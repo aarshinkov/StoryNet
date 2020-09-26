@@ -17,6 +17,14 @@ public class StoriesController extends Base
 {
   private final Logger LOG = LoggerFactory.getLogger(getClass());
 
+  @GetMapping(value = "/stories")
+  public String getStories(Model model)
+  {
+    model.addAttribute("globalMenu", "stories");
+
+    return "stories/stories";
+  }
+
   @GetMapping(value = "/story/create")
   public String prepareCreateStory(StoryCreateModel scm, Model model)
   {
