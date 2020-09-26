@@ -30,6 +30,7 @@ public class UserEntity implements UserDetails, Serializable
   @Id
   @SequenceGenerator(name = "seq_gen_user", sequenceName = "s_users", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_gen_user")
+  @Column(name = "user_id")
   private Long userId;
 
   @Column(name = "email")
