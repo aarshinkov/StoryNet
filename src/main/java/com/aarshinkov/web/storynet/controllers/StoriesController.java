@@ -35,6 +35,18 @@ public class StoriesController extends Base
     return "stories/stories";
   }
 
+  @GetMapping(value = "/story/{storyId}")
+  public String getStory(@PathVariable(value = "storyId") Long storyId, Model model)
+  {
+    StoryEntity story = storyService.getStoryByStoryId(storyId);
+
+    model.addAttribute("story", story);
+
+    model.addAttribute("globalMenu", "stories");
+
+    return "stories/story";
+  }
+
   @GetMapping(value = "/story/create")
   public String prepareCreateStory(StoryCreateModel scm, Model model)
   {

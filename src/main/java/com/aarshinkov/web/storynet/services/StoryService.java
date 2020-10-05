@@ -10,5 +10,7 @@ import com.aarshinkov.web.storynet.models.stories.*;
  */
 public interface StoryService
 {
+  StoryEntity getStoryByStoryId(Long storyId);
+
   StoryEntity createStory(StoryCreateModel scm) throws Exception;
 }

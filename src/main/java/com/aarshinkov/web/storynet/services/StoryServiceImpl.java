@@ -24,6 +24,12 @@ public class StoryServiceImpl implements StoryService
   private StoriesRepository storiesRepository;
 
   @Override
+  public StoryEntity getStoryByStoryId(Long storyId)
+  {
+    return storiesRepository.findByStoryId(storyId);
+  }
+
+  @Override
   public StoryEntity createStory(StoryCreateModel scm) throws Exception
   {
     UserEntity author = usersRepository.findByUserId(scm.getUserId());
