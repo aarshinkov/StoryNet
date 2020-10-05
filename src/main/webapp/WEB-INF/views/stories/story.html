@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{templates/mainTemplate}">
+  <head>
+    <title th:text="#{app.title(${story.title})}">Title</title>
+  </head>
+  <body>
+    <div layout:fragment="contentDiv">
+      <div class="row">
+        <div class="col-12 col-md-9">
+          <h2 th:text="${story.title}">Title</h2> 
+          <div class="d-flex align-items-center">
+            <div class="text-muted">
+              <small class="far fa-clock" data-toggle="tooltip" data-placement="bottom"
+                     title="Created on"></small>
+              <span th:text="${#dates.format(story.createdOn, #messages.msg('format.datetime2'))}"></span>
+              <span>&bull;</span>
+              <small class="far fa-eye" data-toggle="tooltip" data-placement="bottom" title="Visits"></small>
+              <span th:text="${#numbers.formatDecimal(story.visits, 1, 'WHITESPACE', 0, 'DEFAULT')}"></span>
+              <div th:if="${story.editedOn ne null}" th:remove="tag">
+                <span>&bull;</span>
+                <i class="far fa-edit" data-toggle="tooltip" data-placement="bottom"
+                   th:title="${#dates.format(story.editedOn, #messages.msg('format.datetime2'))}"></i>
+              </div>
+            </div>
+            <div class="ml-auto d-none d-lg-block">
+              <a href="#" class="btn btn-outline-info btn-sm" th:href="@{/story/edit/} + ${story.storyId}">
+                <i class="far fa-edit"></i>
+                <span th:text="#{btn.edit}">Edit</span>
+              </a>
+              <a href="#" class="btn btn-outline-danger btn-sm mr-0">
+                <i class="far fa-trash-alt"></i>
+                <span>Delete</span>
+              </a>
+            </div>
+          </div>
+
+          <span class="card-text- mt-3">Published in</span>
+          <a class="card-text text-primary mt-3" href="#" th:href="@{/stories(cat=${story.category.name})}"
+             th:text="#{stories.categories. + ${story.category.categoryId}}"></a>
+
+          <i class="card-text mt-3" th:if="${story.anonymous}">Anonymous</i>
+          <i class="card-text mt-3" th:if="${!story.anonymous}" th:text="${story.user.fullName}"></i>
+
+          <div class="d-block d-lg-none">
+            <a href="#" class="btn btn-outline-info btn-sm ml-0 mt-3" th:href="@{/story/edit/} + ${story.storyId}">
+              <i class="far fa-edit"></i>
+              <span th:text="#{btn.edit}">Edit</span>
+            </a>
+            <a href="#" class="btn btn-outline-danger btn-sm mt-3">
+              <i class="far fa-trash-alt"></i>
+              <span>Delete</span>
+            </a>
+          </div>
+          <hr/>
+
+          <div class="row mb-5">
+            <div class="col-12">
+              <p th:utext=${story.story}></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h4>Comments</h4>
+              <hr/>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-3">
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
