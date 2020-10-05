@@ -4,6 +4,7 @@ import com.aarshinkov.web.storynet.services.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
+import org.springframework.http.*;
 import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.method.configuration.*;
 import org.springframework.security.config.annotation.web.builders.*;
@@ -24,10 +25,10 @@ import org.springframework.security.web.authentication.logout.*;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 {
   private final Logger LOG = LoggerFactory.getLogger(getClass());
-  
+
   @Autowired
   private AuthenticationSuccessHandler authSuccessHandler;
-  
+
   @Autowired
   private AuthenticationFailureHandler authFailureHandler;
 
@@ -36,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 
   @Autowired
   private LogoutSuccessHandler logoutSuccessHandler;
-  
+
   @Autowired
   private UserService userService;
 
@@ -49,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     http.csrf().disable()
             .authorizeRequests()
             .antMatchers("/", "/home").permitAll()
+            .antMatchers("/story/create").authenticated()
             .antMatchers("/login", "/signup").anonymous()
             .and()
             .formLogin()
@@ -71,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception
-  {    
+  {
     auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
 
 //    auth.inMemoryAuthentication()
