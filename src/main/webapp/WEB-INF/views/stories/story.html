@@ -14,15 +14,18 @@
           <div class="d-flex align-items-center">
             <div class="text-muted">
               <small class="far fa-clock" data-toggle="tooltip" data-placement="bottom"
-                     title="Created on"></small>
+                     th:title="#{stories.createdOn}"></small>
               <span th:text="${#dates.format(story.createdOn, #messages.msg('format.datetime2'))}"></span>
               <span>&bull;</span>
-              <small class="far fa-eye" data-toggle="tooltip" data-placement="bottom" title="Visits"></small>
-              <span th:text="${#numbers.formatDecimal(story.visits, 1, 'WHITESPACE', 0, 'DEFAULT')}"></span>
+              <small class="far fa-eye" data-toggle="tooltip" data-placement="bottom"
+                     th:title="#{stories.visits.count}"></small>
+              <span th:if="${story.visits eq 1}" th:text="#{stories.visits.1}"></span>
+              <span th:if="${story.visits ne 1}"
+                    th:text="#{stories.visits(${#numbers.formatDecimal(story.visits, 1, 'WHITESPACE', 0, 'DEFAULT')})}"></span>
               <div th:if="${story.editedOn ne null}" th:remove="tag">
                 <span>&bull;</span>
                 <i class="far fa-edit" data-toggle="tooltip" data-placement="bottom"
-                   th:title="${#dates.format(story.editedOn, #messages.msg('format.datetime2'))}"></i>
+                   th:title="#{stories.editedon(${#dates.format(story.editedOn, #messages.msg('format.datetime2'))})}"></i>
               </div>
             </div>
             <div class="ml-auto d-none d-lg-block">
@@ -32,16 +35,17 @@
               </a>
               <a href="#" class="btn btn-outline-danger btn-sm mr-0">
                 <i class="far fa-trash-alt"></i>
-                <span>Delete</span>
+                <span th:text="#{btn.delete}">Delete</span>
               </a>
             </div>
           </div>
 
-          <span class="card-text- mt-3">Published in</span>
+          <span class="card-text- mt-3" th:text="#{stories.publishedin}">Published in</span>
           <a class="card-text text-primary mt-3" href="#" th:href="@{/stories(cat=${story.category.name})}"
              th:text="#{stories.categories. + ${story.category.categoryId}}"></a>
+          <span class="card-text mt-3" th:text="#{stories.publishedfrom}">from</span>
 
-          <i class="card-text mt-3" th:if="${story.anonymous}">Anonymous</i>
+          <i class="card-text mt-3" th:if="${story.anonymous}" th:text="#{stories.anonymous}">Anonymous</i>
           <i class="card-text mt-3" th:if="${!story.anonymous}" th:text="${story.user.fullName}"></i>
 
           <div class="d-block d-lg-none">
@@ -51,7 +55,7 @@
             </a>
             <a href="#" class="btn btn-outline-danger btn-sm mt-3">
               <i class="far fa-trash-alt"></i>
-              <span>Delete</span>
+              <span th:text="#{btn.delete}">Delete</span>
             </a>
           </div>
           <hr/>
@@ -63,7 +67,7 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <h4>Comments</h4>
+              <h4 th:text="#{story.comments.header}">Comments</h4>
               <hr/>
             </div>
           </div>
