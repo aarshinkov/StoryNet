@@ -1,10 +1,13 @@
 package com.aarshinkov.web.storynet.controllers;
 
 import com.aarshinkov.web.storynet.base.*;
+import com.aarshinkov.web.storynet.entities.*;
 import com.aarshinkov.web.storynet.models.stories.*;
+import com.aarshinkov.web.storynet.services.*;
 import javax.servlet.http.*;
 import javax.validation.*;
 import org.slf4j.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.validation.*;
@@ -20,6 +23,9 @@ import org.springframework.web.servlet.mvc.support.*;
 public class StoriesController extends Base
 {
   private final Logger LOG = LoggerFactory.getLogger(getClass());
+
+  @Autowired
+  private StoryService storyService;
 
   @GetMapping(value = "/stories")
   public String getStories(Model model)
@@ -49,6 +55,16 @@ public class StoriesController extends Base
       return "stories/create";
     }
 
-    return null;
+    try
+    {
+      StoryEntity createStory = storyService.createStory(scm);
+      redirectAttributes.addFlashAttribute("msgSuccess", getMessage("story.create.success"));
+    }
+    catch (Exception e)
+    {
+      redirectAttributes.addFlashAttribute("msgError", getMessage("story.create.erorr"));
+    }
+
+    return "redirect:/stories";
   }
 }

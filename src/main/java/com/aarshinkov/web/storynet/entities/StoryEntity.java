@@ -21,6 +21,7 @@ import org.hibernate.annotations.*;
 @ToString
 @Entity
 @Table(name = "stories")
+@DynamicInsert
 public class StoryEntity implements Serializable
 {
   @Id
