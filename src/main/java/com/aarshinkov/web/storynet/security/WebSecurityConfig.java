@@ -4,7 +4,6 @@ import com.aarshinkov.web.storynet.services.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
-import org.springframework.http.*;
 import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.method.configuration.*;
 import org.springframework.security.config.annotation.web.builders.*;
@@ -51,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
             .authorizeRequests()
             .antMatchers("/", "/home").permitAll()
             .antMatchers("/story/create").authenticated()
+            .antMatchers("/story/edit/**").authenticated()
             .antMatchers("/login", "/signup").anonymous()
             .and()
             .formLogin()

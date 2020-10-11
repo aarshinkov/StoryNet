@@ -9,6 +9,7 @@ import javax.servlet.http.*;
 import javax.validation.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.security.access.prepost.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.validation.*;
@@ -111,6 +112,7 @@ public class StoriesController extends Base
   }
 
   @GetMapping(value = "/story/edit/{storyId}")
+  @PreAuthorize("@expressions.isUserOwner(#storyId, #request)")
   public String prepareEditStory(@PathVariable(value = "storyId") Long storyId, HttpServletRequest request, Model model)
   {
     StoryEntity storedStory = storyService.getStoryByStoryId(storyId);
