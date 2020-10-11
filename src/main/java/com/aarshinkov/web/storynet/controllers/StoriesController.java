@@ -109,4 +109,23 @@ public class StoriesController extends Base
 
     return "redirect:/stories";
   }
+
+  @GetMapping(value = "/story/edit/{storyId}")
+  public String prepareEditStory(@PathVariable(value = "storyId") Long storyId, HttpServletRequest request, Model model)
+  {
+    StoryEntity storedStory = storyService.getStoryByStoryId(storyId);
+
+    StoryEditModel story = new StoryEditModel();
+    story.setTitle(storedStory.getTitle());
+    story.setStory(storedStory.getStory());
+    story.setAnonymous(storedStory.getAnonymous());
+    story.setCategoryId(storedStory.getCategory().getCategoryId());
+
+    model.addAttribute("story", story);
+    model.addAttribute("storyId", storyId);
+
+    model.addAttribute("globalMenu", "stories");
+
+    return "stories/edit";
+  }
 }
