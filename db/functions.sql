@@ -23,7 +23,7 @@ BEGIN
 		IF ip_user_id IS NOT NULL THEN
 			v_sql := 'SELECT * FROM stories s ' ||
 				'JOIN categories c ON s.category_id = c.category_id ' ||
-				'JOIN users u ON s.user_id = u.user_id WHERE u.user_id = ' || ip_user_id ' ORDER BY 1 DESC LIMIT ' || ip_story_count ||
+				'JOIN users u ON s.user_id = u.user_id WHERE u.user_id = ' || ip_user_id || ' ORDER BY 1 DESC LIMIT ' || ip_story_count ||
 				' OFFSET ' || (ip_page_number - 1) * ip_story_count;
 		ELSE
 			v_sql := 'SELECT * FROM stories s ' ||
@@ -34,6 +34,8 @@ BEGIN
 	END IF;
 	
 	op_all_rows := get_stories_count(ip_category_name, ip_user_id);
+	
+	OPEN snCursor FOR EXECUTE v_sql;
 END;
 $$ LANGUAGE plpgsql;
 
