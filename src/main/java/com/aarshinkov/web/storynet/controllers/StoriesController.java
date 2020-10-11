@@ -1,6 +1,7 @@
 package com.aarshinkov.web.storynet.controllers;
 
 import com.aarshinkov.web.storynet.base.*;
+import com.aarshinkov.web.storynet.collections.*;
 import com.aarshinkov.web.storynet.entities.*;
 import com.aarshinkov.web.storynet.models.stories.*;
 import com.aarshinkov.web.storynet.services.*;
@@ -13,6 +14,7 @@ import org.springframework.ui.*;
 import org.springframework.validation.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.*;
+import org.thymeleaf.util.*;
 
 /**
  *
@@ -28,8 +30,36 @@ public class StoriesController extends Base
   private StoryService storyService;
 
   @GetMapping(value = "/stories")
-  public String getStories(Model model)
+  public String getStories(@RequestParam(name = "page", defaultValue = "1", required = false) Integer page,
+          @RequestParam(name = "limit", defaultValue = "5", required = false) Integer limit,
+          @RequestParam(name = "cat", defaultValue = "", required = false) String category,
+          Model model)
   {
+    ObjCollection<StoryEntity> stories = storyService.getStories(page, limit, category, null);
+
+    model.addAttribute("storiesCount", stories.getPage().getLocalTotalElements());
+
+    model.addAttribute("stories", stories.getCollection());
+
+    String otherParams = "";
+
+    if (limit != null && limit > 0)
+    {
+      otherParams = "&limit=" + limit;
+    }
+
+    if (!StringUtils.isEmpty(category))
+    {
+      otherParams += "&cat=" + category;
+    }
+
+    model.addAttribute("otherParameters", otherParams);
+
+    model.addAttribute("pageWrapper", stories.getPage());
+    model.addAttribute("maxPagesPerView", 5);
+
+    model.addAttribute("cat", category);
+
     model.addAttribute("globalMenu", "stories");
 
     return "stories/stories";
