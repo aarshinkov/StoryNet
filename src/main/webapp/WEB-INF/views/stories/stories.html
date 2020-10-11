@@ -22,6 +22,52 @@
             </a>
           </div>
           <hr/>
+          
+          <div class="row" th:if="${storiesCount eq 0}">
+            <div class="col-12">
+              <h5>No stories published yet.</h5>
+            </div>
+          </div>
+          
+          <div th:if="${storiesCount ne 0}" th:remove="tag">
+            <div class="row">
+              <div class="col-12 mb-4" th:each="s : ${stories}">
+                <div class="card shadow" th:classappend="${#authorization.expression('isAuthenticated()') and session.userId eq s.user.userId} ? 'border border-success'">
+                  <div class="card-body">
+                    <h6 class="card-title">
+                      <a href="#" th:href="@{/story/} + ${s.storyId}">
+                        <span th:text="${s.title}">Title</span>
+                      </a>
+                    </h6>
+                    <div class="text-muted" style="font-size: 15px;">
+                      <small class="far fa-clock" data-toggle="tooltip" data-placement="bottom"
+                             th:title="#{stories.createdon}"></small>
+                      <span th:text="${#dates.format(s.createdOn, #messages.msg('format.datetime2'))}">Created on</span>
+                      <span>&bull;</span>
+                      <small class="far fa-eye" data-toggle="tooltip" data-placement="bottom"
+                             th:title="#{stories.visits.count}"></small>
+                      <span th:if="${s.visits eq 1}" th:text="#{stories.visits.1}"></span>
+                      <span th:if="${s.visits ne 1}" th:text="#{stories.visits(${#numbers.formatDecimal(s.visits, 1, 'WHITESPACE', 0, 'DEFAULT')})}"></span>
+                      <div th:if="${s.editedOn ne null}" th:remove="tag">
+                        <span>&bull;</span>
+                        <i class="far fa-edit" data-toggle="tooltip" data-placement="bottom"
+                           th:title="#{stories.editedon(${#dates.format(s.editedOn, #messages.msg('format.datetime2'))})}"></i>
+                      </div>
+                    </div>
+                    
+                    <span class="card-text mt-3" th:text="#{stories.publishedin}"></span>
+                    <a class="card-text text-primary mt-3" href="#" th:href="@{/stories(cat=${s.category.name})}"
+                       th:text="#{stories.categories. + ${s.category.categoryId}}">Category</a>
+                    <span class="card-text mt-3" th:text="#{stories.publishedfrom}">from</span>
+                    
+                    <i class="card-text mt-3" th:if="${s.anonymous}" th:text="#{stories.anonymous}"></i>
+                    <i class="card-text mt-3" th:if="${!s.anonymous}" th:text="${s.user.fullName}"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div th:replace="fragments/paging :: #pagination (otherParams=${otherParameters})"></div>
+          </div>
         </div>
       </div>
     </div>
