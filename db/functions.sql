@@ -38,7 +38,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Get stories count
-CREATE OR REPLACE FUNCTION get_stories_count(ip_category_name IN varchar, ip_user_id IN bigint, op_all_rows OUT bigint) RETURN BIGINT AS $$
+CREATE OR REPLACE FUNCTION get_stories_count(ip_category_name IN varchar, ip_user_id IN bigint, op_all_rows OUT bigint) RETURNS BIGINT AS $$
 BEGIN
 	IF ip_category_name IS NOT NULL THEN
 		IF ip_user_id IS NOT NULL THEN
