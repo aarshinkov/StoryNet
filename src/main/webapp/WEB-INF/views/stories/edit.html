@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{templates/mainTemplate}">
+  <head>
+    <title th:text="#{app.title(#{story.edit.title})}">Edit a story</title>
+  </head>
+  <body>
+    <div layout:fragment="contentDiv">
+      <div class="row">
+        <div class="col-12">
+          <form th:action="@{/story/edit/} + ${storyId}" method="post" th:object="${story}">
+            <div class="d-md-flex align-items-center">
+              <h2 th:utext="#{story.edit.header(@{/story/} + ${storyId}, ${story.title})}">Edit story</h2>
+              <div class="form-group ml-auto mb-0">
+                <input id="isAnonymousInput" type="checkbox" th:field="*{anonymous}"/>
+                <label for="isAnonymousInput" class="mb-0 h6" th:text="#{story.edit.form.anonymous}">Anonymous</label>
+              </div>
+            </div>
+            <hr/>
+
+            <div class="form-group">
+              <label class="font-weight-bold" th:text="#{story.edit.form.title}">Title</label>
+              <input type="text" class="form-control" th:field="*{title}"
+                     th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'" autofocus="autofocus"/>
+              <span class="invalid-feedback" th:errors="*{title}">Error</span>
+            </div>
+            <div class="form-group">
+              <label class="font-weight-bold" th:text="#{story.edit.form.category}">Category</label>
+
+              <select class="form-control" th:field="*{categoryId}"
+                      th:classappend="${#fields.hasErrors('categoryId')} ? 'is-invalid'">
+                <option value="1" th:text="#{stories.categories.1}">Love</option>
+                <option value="2" th:text="#{stories.categories.2}">Teen</option>
+                <option value="3" th:text="#{stories.categories.3}">Family</option>
+                <option value="4" th:text="#{stories.categories.4}">Health</option>
+                <option value="5" th:text="#{stories.categories.5}">Education</option>
+                <option value="6" th:text="#{stories.categories.6}">Sport</option>
+              </select>
+              <span class="invalid-feedback" th:errors="*{categoryId}">Error</span>
+            </div>
+            <div class="form-group">
+              <label class="font-weight-bold" th:text="#{story.edit.form.story}">Story</label>
+              <textarea class="form-control" th:field="*{story}"
+                        th:classappend="${#fields.hasErrors('story')} ? 'is-invalid'"></textarea>
+              <span class="invalid-feedback" th:errors="*{story}">Error</span>
+            </div>
+            <button type="submit" class="btn btn-primary ml-0">
+              <i class="fas fa-save"></i>
+              <span th:text="#{btn.save}">Save</span>
+            </button>
+            <a href="#" th:href="@{/stories}" class="btn btn-outline-dark">
+              <i class="fas fa-arrow-left"></i>
+              <span th:text="#{btn.back}">Back</span>
+            </a>
+          </form>
+        </div>
+      </div>
+
+      <script>
+        tinymce.init({
+          selector: 'textarea',
+          min_height: 500
+        });
+      </script>
+    </div>
+  </body>
+</html>
