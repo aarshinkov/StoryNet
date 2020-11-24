@@ -130,4 +130,29 @@ public class StoriesController extends Base
 
     return "stories/edit";
   }
+
+  @PostMapping(value = "/story/edit/{storyId}")
+  @PreAuthorize("@expressions.isUserOwner(#storyId, #request)")
+  public String editStory(@ModelAttribute("story") @Valid StoryEditModel sem, BindingResult bindingResult,
+          @PathVariable(value = "storyId") Long storyId, RedirectAttributes redirectAttributes,
+          HttpServletRequest request, Model model)
+  {
+    if (bindingResult.hasErrors())
+    {
+      model.addAttribute("globalMenu", "stories");
+      return "stories/edit";
+    }
+
+    try
+    {
+      // storyService.updateStory(storyId, sem);
+      redirectAttributes.addFlashAttribute("msgSuccess", getMessage("story.edit.success"));
+    }
+    catch (Exception e)
+    {
+      redirectAttributes.addFlashAttribute("msgError", getMessage("story.edit.error"));
+    }
+
+    return "redirect:/story/" + storyId;
+  }
 }
