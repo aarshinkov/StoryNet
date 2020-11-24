@@ -10,6 +10,7 @@ import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.jdbc.core.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 import org.springframework.util.*;
 
 /**
@@ -160,5 +161,34 @@ public class StoryServiceImpl implements StoryService
     StoryEntity savedStory = storiesRepository.save(createStory);
 
     return savedStory;
+  }
+
+  @Override
+  @Transactional(rollbackFor = Exception.class)
+  public StoryEntity updateStory(Long storyId, StoryEditModel sem) throws Exception
+  {
+    StoryEntity story = storiesRepository.findByStoryId(storyId);
+
+    if (story == null)
+    {
+      throw new Exception("Story with ID " + storyId + " does not exist");
+    }
+
+    CategoryEntity category = categoriesRepository.findByCategoryId(sem.getCategoryId());
+
+    if (category == null)
+    {
+      throw new Exception("Category with ID " + sem.getCategoryId() + " does not exist");
+    }
+
+    story.setTitle(sem.getTitle());
+    story.setStory(sem.getStory());
+    story.setAnonymous(sem.getAnonymous());
+    story.setCategory(category);
+    story.setEditedOn(new Timestamp(System.currentTimeMillis()));
+
+    StoryEntity updatedStory = storiesRepository.save(story);
+
+    return updatedStory;
   }
 }

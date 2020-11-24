@@ -8,6 +8,8 @@
   </head>
   <body>
     <div layout:fragment="contentDiv">
+      <div th:replace="fragments/messages :: #notify"></div>
+      
       <div class="row">
         <div class="col-12 col-md-9">
           <h2 th:text="${story.title}">Title</h2> 
@@ -28,7 +30,7 @@
                    th:title="#{stories.editedon(${#dates.format(story.editedOn, #messages.msg('format.datetime2'))})}"></i>
               </div>
             </div>
-            <div class="ml-auto d-none d-lg-block">
+            <div class="ml-auto d-none d-lg-block" th:if="${#authorization.expression('isAuthenticated()') and session.userId eq story.user.userId}">
               <a href="#" class="btn btn-outline-info btn-sm" th:href="@{/story/edit/} + ${story.storyId}">
                 <i class="far fa-edit"></i>
                 <span th:text="#{btn.edit}">Edit</span>

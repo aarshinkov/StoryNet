@@ -145,7 +145,7 @@ public class StoriesController extends Base
 
     try
     {
-      // storyService.updateStory(storyId, sem);
+      StoryEntity updatedStory = storyService.updateStory(storyId, sem);
       redirectAttributes.addFlashAttribute("msgSuccess", getMessage("story.edit.success"));
     }
     catch (Exception e)
