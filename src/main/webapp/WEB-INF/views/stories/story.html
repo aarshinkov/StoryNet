@@ -9,7 +9,7 @@
   <body>
     <div layout:fragment="contentDiv">
       <div th:replace="fragments/messages :: #notify"></div>
-      
+
       <div class="row">
         <div class="col-12 col-md-9">
           <h2 th:text="${story.title}">Title</h2> 
@@ -35,7 +35,7 @@
                 <i class="far fa-edit"></i>
                 <span th:text="#{btn.edit}">Edit</span>
               </a>
-              <a href="#" class="btn btn-outline-danger btn-sm mr-0">
+              <a href="#" class="btn btn-outline-danger btn-sm mr-0" data-toggle="modal" data-target="#storyDeleteModal">
                 <i class="far fa-trash-alt"></i>
                 <span th:text="#{btn.delete}">Delete</span>
               </a>
@@ -55,7 +55,7 @@
               <i class="far fa-edit"></i>
               <span th:text="#{btn.edit}">Edit</span>
             </a>
-            <a href="#" class="btn btn-outline-danger btn-sm mt-3">
+            <a href="#" class="btn btn-outline-danger btn-sm mt-3" data-toggle="modal" data-target="#storyDeleteModal">
               <i class="far fa-trash-alt"></i>
               <span th:text="#{btn.delete}">Delete</span>
             </a>
@@ -76,6 +76,37 @@
         </div>
         <div class="col-12 col-md-3">
 
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="storyDeleteModal" tabindex="-1" role="dialog" aria-labelledby="storyDeleteModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="storyDeleteModalLabel" th:text="#{story.delete.modal.title}">Delete story</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form th:action="@{/story/delete}" method="post">
+              <div class="modal-body">
+                <p th:utext="#{story.delete.modal.message(${story.title})}">Do you really want to delete story?</p>
+              </div>
+              <input type="hidden" th:value="${story.storyId}" name="storyId"/>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-danger btn-md">
+                  <i class="far fa-trash-alt"></i>
+                  <span th:text="#{btn.delete}">Delete</span>
+                </button>
+                <button type="button" class="btn btn-outline-dark btn-md" data-dismiss="modal">
+                  <i class="fas fa-times"></i>
+                  <span th:text="#{btn.close}">Close</span>
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
