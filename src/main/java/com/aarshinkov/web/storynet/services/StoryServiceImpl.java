@@ -191,4 +191,20 @@ public class StoryServiceImpl implements StoryService
 
     return updatedStory;
   }
+
+  @Override
+  @Transactional(rollbackFor = Exception.class)
+  public StoryEntity deleteStory(Long storyId) throws Exception
+  {
+    StoryEntity story = storiesRepository.findByStoryId(storyId);
+
+    if (story == null)
+    {
+      throw new Exception("Story with ID " + storyId + " does not exist");
+    }
+    
+    storiesRepository.delete(story);
+
+    return story;
+  }
 }

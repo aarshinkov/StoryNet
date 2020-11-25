@@ -155,4 +155,23 @@ public class StoriesController extends Base
 
     return "redirect:/story/" + storyId;
   }
+
+  @PostMapping(value = "/story/delete")
+  @PreAuthorize("@expressions.isUserOwner(#storyId, #request)")
+  public String deleteStory(@RequestParam(name = "storyId") Long storyId, HttpServletRequest request,
+          RedirectAttributes redirectAttributes)
+  {
+    try
+    {
+      StoryEntity deletedStory = storyService.deleteStory(storyId);
+      redirectAttributes.addFlashAttribute("msgSuccess", getMessage("story.delete.success"));
+    }
+    catch (Exception e)
+    {
+      LOG.debug("Error deleting story", e);
+      redirectAttributes.addFlashAttribute("msgError", getMessage("story.delete.error"));
+    }
+
+    return "redirect:/stories";
+  }
 }

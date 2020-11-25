@@ -51,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
             .antMatchers("/", "/home").permitAll()
             .antMatchers("/story/create").authenticated()
             .antMatchers("/story/edit/**").authenticated()
+            .antMatchers("/story/delete").authenticated()
             .antMatchers("/login", "/signup").anonymous()
             .and()
             .formLogin()

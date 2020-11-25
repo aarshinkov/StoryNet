@@ -18,4 +18,6 @@ public interface StoryService
   StoryEntity createStory(StoryCreateModel scm) throws Exception;
 
   StoryEntity updateStory(Long storyId, StoryEditModel sem) throws Exception;
+
+  StoryEntity deleteStory(Long storyId) throws Exception;
 }
