@@ -15,8 +15,8 @@ CREATE TABLE users(
 	edited_on timestamp
 );
 
-INSERT INTO users (email, password, first_name, last_name) VALUES ('admin@storynet.com', 'Test-1234', 'Админ', 'Админ');
-INSERT INTO users (email, password, first_name, last_name) VALUES ('test1@gmail.com', 'Test-1234', 'Петър', 'Иванов');
+INSERT INTO users (email, password, first_name, last_name) VALUES ('admin@storynet.com', '$2a$12$oE7xOZAM5LcdeYJ/oS9/d.OJdNygOCjtfhx/yhHspBBbZntO7T6Mu', 'Админ', 'Админ');
+INSERT INTO users (email, password, first_name, last_name) VALUES ('test1@gmail.com', '$2a$12$oE7xOZAM5LcdeYJ/oS9/d.OJdNygOCjtfhx/yhHspBBbZntO7T6Mu', 'Петър', 'Иванов');
 
 CREATE TABLE roles(
 	rolename varchar(50) not null primary key,
