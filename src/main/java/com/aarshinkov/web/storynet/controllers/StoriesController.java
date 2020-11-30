@@ -5,6 +5,7 @@ import com.aarshinkov.web.storynet.collections.*;
 import com.aarshinkov.web.storynet.entities.*;
 import com.aarshinkov.web.storynet.models.stories.*;
 import com.aarshinkov.web.storynet.services.*;
+import java.util.*;
 import javax.servlet.http.*;
 import javax.validation.*;
 import org.slf4j.*;
@@ -71,7 +72,10 @@ public class StoriesController extends Base
   {
     StoryEntity story = storyService.getStoryByStoryId(storyId);
 
+    Long totalCommentsCount = storyService.getStoryCommentsCount(storyId);
+
     model.addAttribute("story", story);
+    model.addAttribute("storyCommentsCount", totalCommentsCount);
 
     model.addAttribute("comment", new CommentCreateModel());
 
@@ -175,6 +179,28 @@ public class StoriesController extends Base
     }
 
     return "redirect:/stories";
+  }
+
+  @GetMapping(value = "/story/comments")
+  public String getComments(@RequestParam(name = "storyId") Long storyId,
+          @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
+          @RequestParam(name = "limit", required = false, defaultValue = "4") Integer limit,
+          Model model)
+  {
+    List<CommentEntity> comments = storyService.getStoryComments(storyId, page, limit);
+    Long totalCommentsCount = storyService.getStoryCommentsCount(storyId);
+
+    StoryEntity story = storyService.getStoryByStoryId(storyId);
+
+    boolean hasMore = totalCommentsCount > comments.size();
+
+    model.addAttribute("hasMore", hasMore);
+    model.addAttribute("story", story);
+
+    model.addAttribute("totalCommentsCount", totalCommentsCount);
+    model.addAttribute("comments", comments);
+
+    return "stories/fragments :: #commentDiv";
   }
 
   @PostMapping(value = "/story/comment/create")

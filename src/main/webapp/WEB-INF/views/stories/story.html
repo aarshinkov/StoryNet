@@ -69,7 +69,8 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <h4 th:text="#{story.comments.header}">Comments</h4>
+              <h4 th:if="${storyCommentsCount eq 0}" th:text="#{story.comments.header}">Comments</h4>
+              <h4 th:if="${storyCommentsCount ne 0}" th:text="#{story.comments.header.count(${storyCommentsCount})}">Comments</h4>
               <hr/>
               <form th:action="@{/story/comment/create}" method="post" th:object="${comment}" sec:authorize="isAuthenticated()">
                 <div class="form-group md-form">
@@ -94,8 +95,8 @@
                   </div>
                 </div>
               </form>
-              <!--<h5 class="text-muted" th:text="#{story.comments.nocomments}">No comments for this story</h5>-->
-              <div id="commentsWrapper"></div>
+              <h5 class="text-muted" th:if="${storyCommentsCount eq 0}" th:text="#{story.comments.nocomments}">No comments for this story</h5>
+              <div id="commentsWrapper" th:if="${storyCommentsCount ne 0}"></div>
             </div>
           </div>
         </div>
