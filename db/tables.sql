@@ -82,3 +82,19 @@ CREATE TABLE stories(
 	created_on timestamp not null default NOW(),
 	edited_on timestamp
 );
+
+CREATE SEQUENCE public.s_comments
+	INCREMENT 1
+	START 1;
+	
+ALTER SEQUENCE public.s_comments
+	OWNER to storynet_user;
+	
+CREATE TABLE comments(
+	comment_id int not null primary key default nextval('s_comments'),
+	content text not null,
+	story_id int not null references stories(story_id) ON DELETE CASCADE,
+	user_id int not null references users(user_id) ON DELETE CASCADE,
+	created_on timestamp not null default NOW(),
+	edited_on timestamp
+);
