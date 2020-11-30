@@ -64,3 +64,16 @@ BEGIN
 	END IF;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Get story comments
+CREATE OR REPLACE FUNCTION get_comments(ip_story_id IN bigint, ip_page IN int, ip_limit IN int, snCursor OUT refcursor) RETURNS refcursor AS $$
+BEGIN
+	OPEN snCursor FOR
+	SELECT c.*, u.first_name, u.last_name
+	FROM comments c
+	JOIN users u ON c.user_id = u.user_id
+	WHERE c.story_id = ip_story_id
+	ORDER BY c.created_on DESC
+	LIMIT ip_page * ip_limit;
+END;
+$$ LANGUAGE plpgsql;
