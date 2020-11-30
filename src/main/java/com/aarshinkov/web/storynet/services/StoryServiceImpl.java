@@ -6,6 +6,7 @@ import com.aarshinkov.web.storynet.models.stories.*;
 import com.aarshinkov.web.storynet.repositories.*;
 import com.aarshinkov.web.storynet.utils.*;
 import java.sql.*;
+import java.util.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.jdbc.core.*;
@@ -212,6 +213,54 @@ public class StoryServiceImpl implements StoryService
   }
 
   @Override
+  public List<CommentEntity> getStoryComments(Long storyId, Integer page, Integer limit)
+  {
+    try (Connection conn = jdbcTemplate.getDataSource().getConnection();
+            CallableStatement cstmt = conn.prepareCall("{? = call get_comments(?, ?, ?)}"))
+    {
+      conn.setAutoCommit(false);
+
+      cstmt.setLong(1, storyId);
+      cstmt.setInt(2, page);
+      cstmt.setInt(3, limit);
+
+      cstmt.registerOutParameter(4, Types.REF_CURSOR);
+      cstmt.execute();
+
+      List<CommentEntity> storyComments = new ArrayList<>();
+
+      ResultSet rset = (ResultSet) cstmt.getObject(4);
+
+      while (rset.next())
+      {
+        CommentEntity comment = new CommentEntity();
+        comment.setCommentId(rset.getLong("comment_id"));
+        comment.setContent(rset.getString("content"));
+
+        UserEntity user = new UserEntity();
+        user.setUserId(rset.getLong("user_id"));
+        user.setFirstName(rset.getString("first_name"));
+        user.setLastName(rset.getString("last_name"));
+
+        comment.setUser(user);
+
+        comment.setCreatedOn(rset.getTimestamp("created_on"));
+        comment.setEditedOn(rset.getTimestamp("edited_on"));
+
+        storyComments.add(comment);
+      }
+
+      return storyComments;
+    }
+    catch (Exception e)
+    {
+      LOG.error("Error getting story's comments", e);
+    }
+
+    return null;
+  }
+
+  @Override
   @Transactional(rollbackFor = Exception.class)
   public CommentEntity createComment(CommentCreateModel ccm) throws Exception
   {
@@ -238,5 +287,11 @@ public class StoryServiceImpl implements StoryService
     CommentEntity createdComment = commentsRepository.save(comment);
 
     return createdComment;
+  }
+
+  @Override
+  public Long getStoryCommentsCount(Long storyId)
+  {
+    return commentsRepository.countByStoryStoryId(storyId);
   }
 }

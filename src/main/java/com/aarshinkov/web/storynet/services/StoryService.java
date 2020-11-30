@@ -3,6 +3,7 @@ package com.aarshinkov.web.storynet.services;
 import com.aarshinkov.web.storynet.collections.*;
 import com.aarshinkov.web.storynet.entities.*;
 import com.aarshinkov.web.storynet.models.stories.*;
+import java.util.*;
 
 /**
  *
@@ -21,5 +22,9 @@ public interface StoryService
 
   StoryEntity deleteStory(Long storyId) throws Exception;
 
+  List<CommentEntity> getStoryComments(Long storyId, Integer page, Integer limit);
+
   CommentEntity createComment(CommentCreateModel ccm) throws Exception;
+
+  Long getStoryCommentsCount(Long storyId);
 }
