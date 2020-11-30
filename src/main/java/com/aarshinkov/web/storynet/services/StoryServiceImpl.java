@@ -33,6 +33,9 @@ public class StoryServiceImpl implements StoryService
   private StoriesRepository storiesRepository;
 
   @Autowired
+  private CommentsRepository commentsRepository;
+
+  @Autowired
   private JdbcTemplate jdbcTemplate;
 
   @Override
@@ -202,9 +205,38 @@ public class StoryServiceImpl implements StoryService
     {
       throw new Exception("Story with ID " + storyId + " does not exist");
     }
-    
+
     storiesRepository.delete(story);
 
     return story;
+  }
+
+  @Override
+  @Transactional(rollbackFor = Exception.class)
+  public CommentEntity createComment(CommentCreateModel ccm) throws Exception
+  {
+    CommentEntity comment = new CommentEntity();
+    comment.setContent(ccm.getComment());
+
+    StoryEntity story = storiesRepository.findByStoryId(ccm.getStoryId());
+
+    if (story == null)
+    {
+      throw new Exception("Story with ID " + ccm.getStoryId() + " does not exist");
+    }
+
+    UserEntity user = usersRepository.findByUserId(ccm.getUserId());
+
+    if (user == null)
+    {
+      throw new Exception("User with ID " + ccm.getUserId() + " does not exist");
+    }
+
+    comment.setStory(story);
+    comment.setUser(user);
+
+    CommentEntity createdComment = commentsRepository.save(comment);
+
+    return createdComment;
   }
 }

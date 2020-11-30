@@ -198,7 +198,7 @@ public class StoriesController extends Base
 
     try
     {
-//      storyService.createComment(ccm);
+      CommentEntity createdComment = storyService.createComment(ccm);
       redirectAttributes.addFlashAttribute("msgSuccess", getMessage("story.comments.create.success"));
     }
     catch (Exception e)

@@ -20,4 +20,6 @@ public interface StoryService
   StoryEntity updateStory(Long storyId, StoryEditModel sem) throws Exception;
 
   StoryEntity deleteStory(Long storyId) throws Exception;
+
+  CommentEntity createComment(CommentCreateModel ccm) throws Exception;
 }
