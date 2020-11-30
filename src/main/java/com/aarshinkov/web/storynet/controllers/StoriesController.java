@@ -73,6 +73,8 @@ public class StoriesController extends Base
 
     model.addAttribute("story", story);
 
+    model.addAttribute("comment", new CommentCreateModel());
+
     model.addAttribute("globalMenu", "stories");
 
     return "stories/story";
@@ -173,5 +175,38 @@ public class StoriesController extends Base
     }
 
     return "redirect:/stories";
+  }
+
+  @PostMapping(value = "/story/comment/create")
+  public String createComment(@ModelAttribute("comment") @Valid CommentCreateModel ccm, BindingResult bindingResult,
+          RedirectAttributes redirectAttributes, Model model)
+  {
+    if (bindingResult.hasErrors())
+    {
+      StoryEntity story = storyService.getStoryByStoryId(ccm.getStoryId());
+
+      if (story == null)
+      {
+        return "redirect:/stories";
+      }
+
+      model.addAttribute("story", story);
+      model.addAttribute("globalMenu", "stories");
+
+      return "stories/story";
+    }
+
+    try
+    {
+//      storyService.createComment(ccm);
+      redirectAttributes.addFlashAttribute("msgSuccess", getMessage("story.comments.create.success"));
+    }
+    catch (Exception e)
+    {
+      LOG.error("Error creating comment", e);
+      redirectAttributes.addFlashAttribute("msgError", getMessage("story.comments.create.error"));
+    }
+
+    return "redirect:/story/" + ccm.getStoryId();
   }
 }

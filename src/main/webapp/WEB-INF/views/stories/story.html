@@ -71,11 +71,12 @@
             <div class="col-12">
               <h4 th:text="#{story.comments.header}">Comments</h4>
               <hr/>
-              <form th:action="@{/story/comment/create}" method="post" sec:authorize="isAuthenticated()">
+              <form th:action="@{/story/comment/create}" method="post" th:object="${comment}" sec:authorize="isAuthenticated()">
                 <div class="form-group md-form">
                   <textarea class="form-control md-textarea" id="commentInput" maxlength="200" onfocus="showCommentsControl(this)"
-                            th:placeholder="#{story.comments.placeholder}" style="min-height: 40px;"></textarea>
-                  <span class="invalid-feedback">Error</span>
+                            th:placeholder="#{story.comments.placeholder}" th:field="*{comment}" style="min-height: 40px;"
+                            th:classappend="${#fields.hasErrors('comment')} ? 'is-invalid'"></textarea>
+                  <span class="invalid-feedback" th:errors="*{comment}">Error</span>
                 </div>
                 <input type="hidden" name="userId" th:value="${session.userId}"/>
                 <input type="hidden" name="storyId" th:value="${story.storyId}"/>
