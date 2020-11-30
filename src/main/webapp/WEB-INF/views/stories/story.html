@@ -71,6 +71,30 @@
             <div class="col-12">
               <h4 th:text="#{story.comments.header}">Comments</h4>
               <hr/>
+              <form th:action="@{/story/comment/create}" method="post" sec:authorize="isAuthenticated()">
+                <div class="form-group md-form">
+                  <textarea class="form-control md-textarea" id="commentInput" maxlength="200" onfocus="showCommentsControl(this)"
+                            th:placeholder="#{story.comments.placeholder}" style="min-height: 40px;"></textarea>
+                  <span class="invalid-feedback">Error</span>
+                </div>
+                <input type="hidden" name="userId" th:value="${session.userId}"/>
+                <input type="hidden" name="storyId" th:value="${story.storyId}"/>
+                <div class="d-flex justify-content-center">
+                  <span id="commentInputCount" class="d-none">0/200</span>
+                  <div id="buttonsGroup" class="ml-auto d-none">
+                    <a onclick="resetCommentInput()" class="btn btn-outline-dark btn-md">
+                      <i class="fas fa-times"></i>
+                      <span th:text="#{btn.cancel}">Cancel</span>
+                    </a>
+                    <button id="commentPostButton" type="submit" class="btn btn-primary btn-md mr-0" disabled="disabled">
+                      <i class="fas fa-save"></i>
+                      <span th:text="#{btn.save}">Save</span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <!--<h5 class="text-muted" th:text="#{story.comments.nocomments}">No comments for this story</h5>-->
+              <div id="commentsWrapper"></div>
             </div>
           </div>
         </div>
@@ -109,6 +133,44 @@
           </div>
         </div>
       </div>
+
+      <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var commentsUrl = /*[[@{/story/comments}]]*/;
+                var storyId = /*[[${story.storyId}]]*/;
+
+        var maxCommentLength = 200;
+        var page = 0;
+        /*]]>*/
+
+        $(document).ready(function () {
+          $('#commentInput').keyup(function () {
+            var commentInput = $('#commentInput').val();
+
+            if (commentInput.length === 0) {
+              $('#commentPostButton').prop('disabled', true);
+            } else if (commentInput.length <= maxCommentLength) {
+              $('#commentPostButton').prop('disabled', false);
+            }
+
+            $('#commentInputCount').html(commentInput.length + '/' + maxCommentLength);
+          });
+        });
+
+        function resetCommentInput() {
+          $('#commentInputCount').addClass("d-none");
+          $('#buttonsGroup').addClass("d-none");
+          $('#buttonsGroup').removeClass("mb-4");
+          $('#commentInputCount').html("0/" + maxCommentLength);
+          $('#commentInput').val("");
+        }
+
+        function showCommentsControl(input) {
+          $('#commentInputCount').removeClass("d-none");
+          $('#buttonsGroup').removeClass("d-none");
+          $('#buttonsGroup').addClass("mb-4");
+        }
+      </script>
     </div>
   </body>
 </html>
