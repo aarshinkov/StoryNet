@@ -172,6 +172,27 @@
           $('#buttonsGroup').removeClass("d-none");
           $('#buttonsGroup').addClass("mb-4");
         }
+
+        function getComments() {
+          page++;
+          $.ajax({
+            url: commentsUrl,
+            type: 'get',
+            data: {
+              storyId: storyId,
+              page: page
+            },
+            success: function (data) {
+              $("#commentsWrapper").empty().append(data);
+            },
+            error: function (xhr, status, error) {
+              alert("fail");
+            }
+          });
+          return false;
+        }
+        
+        getComments();
       </script>
     </div>
   </body>

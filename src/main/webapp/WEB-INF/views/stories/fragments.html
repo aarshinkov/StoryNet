@@ -1,9 +1,21 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
   <body>
     <div id="commentDiv" th:remove="tag">
-      <h3>TEST</h3>
+      <div th:each="c : ${comments}" th:unless="${#lists.isEmpty(comments)}" th:with="isAuthor=${c.user.userId eq story.user.userId}">
+        
+        <h6 class="d-inline fas fa-feather-alt" th:title="#{story.author}" th:if="${isAuthor and !story.anonymous}"></h6>
+        
+        <h6 class="d-inline fas fa-user-circle" sec:authorize="isAuthenticated()"
+            th:title="#{story.me}" th:if="${session.userId eq c.user.userId}"></h6>
+        
+        <h6 class="font-weight-bold d-inline" th:text="${c.user.fullName}"></h6>
+        <span>&bull;</span>
+        <h6 class="d-inline text-muted" th:text="${#dates.format(c.createdOn, #messages.msg('format.datetime2'))}">Created on</h6>
+        <div class="mt-2 mb-3 text-muted" th:text="${c.content}">Comment content</div>
+      </div>
     </div>
   </body>
 </html>
