@@ -136,6 +136,36 @@
         </div>
       </div>
 
+      <div class="modal fade" id="commentDeleteModal" tabindex="-1" role="dialog" aria-labelledby="commentDeleteModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="commentDeleteModalLabel" th:text="#{story.comments.delete.title}">Delete a comment</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form th:action="@{/comment/delete}" method="post">
+              <div class="modal-body">
+                <p th:text="#{story.comments.delete.text}">Delete your comment permanently?</p>
+              </div>
+              <input type="hidden" id="commentDeleteId" name="commentId"/>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">
+                  <i class="fas fa-times"></i>
+                  <span th:text="#{btn.cancel}">Cancel</span>
+                </button>
+                <button type="submit" class="btn btn-outline-danger btn-sm">
+                  <i class="far fa-trash-alt"></i>
+                  <span th:text="#{btn.delete}">Delete</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
       <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         var commentsUrl = /*[[@{/story/comments}]]*/;
@@ -191,8 +221,15 @@
           });
           return false;
         }
-        
+
         getComments();
+
+        $('#commentDeleteModal').on('show.bs.modal', function (event) {
+          var modal = $(event.relatedTarget);
+          var commentId = modal.data('id');
+          
+          $('#commentDeleteId').val(commentId);
+        });
       </script>
     </div>
   </body>

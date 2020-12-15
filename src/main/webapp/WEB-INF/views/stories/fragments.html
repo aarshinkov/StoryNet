@@ -5,18 +5,43 @@
   <body>
     <div id="commentDiv" th:remove="tag">
       <div th:each="c : ${comments}" th:unless="${#lists.isEmpty(comments)}" th:with="isAuthor=${c.user.userId eq story.user.userId}">
-        
-        <h6 class="d-inline fas fa-feather-alt" th:title="#{story.author}" th:if="${isAuthor and !story.anonymous}"></h6>
-        
-        <h6 class="d-inline fas fa-user-circle" sec:authorize="isAuthenticated()"
-            th:title="#{story.me}" th:if="${session.userId eq c.user.userId}"></h6>
-        
-        <h6 class="font-weight-bold d-inline" th:text="${c.user.fullName}"></h6>
-        <span>&bull;</span>
-        <h6 class="d-inline text-muted" th:text="${#dates.format(c.createdOn, #messages.msg('format.datetime2'))}">Created on</h6>
+
+        <div class="d-flex">
+
+          <div class="mr-auto">
+
+            <h6 class="d-inline fas fa-feather-alt" th:title="#{story.author}" th:if="${isAuthor and !story.anonymous}"></h6>
+
+            <h6 class="d-inline fas fa-user-circle" sec:authorize="isAuthenticated()"
+                th:title="#{story.me}" th:if="${session.userId eq c.user.userId}"></h6>
+
+            <h6 class="font-weight-bold d-inline" th:text="${c.user.fullName}"></h6>
+            <span>&bull;</span>
+            <h6 class="d-inline text-muted" th:text="${#dates.format(c.createdOn, #messages.msg('format.datetime2'))}">Created on</h6>
+          </div>
+          <div>
+            <a class="fas fa-ellipsis-v text-muted" style="font-size: 11px;" data-toggle="dropdown" aria-haspopup="true"
+               aria-expanded="false"></a>
+
+            <div class="dropdown-menu dropdown-menu-right" th:if="${session.userId eq c.user.userId}">
+              <a class="dropdown-item text-danger" href="#" th:attr="data-id=${c.commentId}" data-toggle="modal" data-target="#commentDeleteModal">
+                <i class="fas fa-trash icon-width"></i>
+                <span th:text="#{btn.delete}">Delete</span>
+              </a>
+            </div>
+
+            <div class="dropdown-menu dropdown-menu-right" th:if="${session.userId ne c.user.userId}">             
+              <a class="dropdown-item text-warning" href="#">
+                <i class="fas fa-flag icon-width"></i>
+                <span>Report</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
         <div class="mt-2 mb-3 text-muted" th:text="${c.content}">Comment content</div>
       </div>
-      
+
       <div th:if="${hasMore}">
         <a class="text-primary font-weight-bold" onclick="getComments()">
           <i class="fas fa-caret-down"></i>
