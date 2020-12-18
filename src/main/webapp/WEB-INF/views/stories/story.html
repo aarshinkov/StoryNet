@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{templates/mainTemplate}">
   <head>
@@ -50,7 +51,7 @@
           <i class="card-text mt-3" th:if="${story.anonymous}" th:text="#{stories.anonymous}">Anonymous</i>
           <i class="card-text mt-3" th:if="${!story.anonymous}" th:text="${story.user.fullName}"></i>
 
-          <div class="d-block d-lg-none">
+          <div class="d-block d-lg-none" th:if="${#authorization.expression('isAuthenticated()') and session.userId eq story.user.userId}">
             <a href="#" class="btn btn-outline-info btn-sm ml-0 mt-3" th:href="@{/story/edit/} + ${story.storyId}">
               <i class="far fa-edit"></i>
               <span th:text="#{btn.edit}">Edit</span>
@@ -107,7 +108,7 @@
 
       <!-- Modal -->
       <div class="modal fade" id="storyDeleteModal" tabindex="-1" role="dialog" aria-labelledby="storyDeleteModalLabel"
-           aria-hidden="true">
+           aria-hidden="true" th:if="${#authorization.expression('isAuthenticated()') and session.userId eq story.user.userId}">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -137,7 +138,7 @@
       </div>
 
       <div class="modal fade" id="commentDeleteModal" tabindex="-1" role="dialog" aria-labelledby="commentDeleteModalLabel"
-           aria-hidden="true">
+           aria-hidden="true" sec:authorize="isAuthenticated()">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -146,11 +147,12 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form th:action="@{/comment/delete}" method="post">
+            <form th:action="@{/story/comment/delete}" method="post">
               <div class="modal-body">
                 <p th:text="#{story.comments.delete.text}">Delete your comment permanently?</p>
               </div>
               <input type="hidden" id="commentDeleteId" name="commentId"/>
+              <input type="hidden" name="storyId" th:value="${story.storyId}"/>
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline-dark btn-sm" data-dismiss="modal">
                   <i class="fas fa-times"></i>

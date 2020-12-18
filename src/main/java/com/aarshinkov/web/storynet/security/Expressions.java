@@ -23,6 +23,25 @@ public class Expressions
   @Autowired
   private StoryService storyService;
 
+  @Autowired
+  private CommentService commentService;
+
+  public boolean isUserOwnerToComment(Long commentId, HttpServletRequest request) throws Exception
+  {
+    Long userId = (Long) systemService.getSessionAttribute(request, "userId");
+
+    CommentEntity comment = commentService.getCommentByCommentId(commentId);
+
+    if (comment == null)
+    {
+      throw new Exception("Comment with ID " + commentId + " does not exist");
+    }
+
+    UserEntity owner = comment.getUser();
+
+    return owner.getUserId().equals(userId);
+  }
+
   public boolean isUserOwner(Long storyId, HttpServletRequest request)
   {
     Long userId = (Long) systemService.getSessionAttribute(request, "userId");

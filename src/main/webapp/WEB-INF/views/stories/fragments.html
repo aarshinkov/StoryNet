@@ -19,7 +19,7 @@
             <span>&bull;</span>
             <h6 class="d-inline text-muted" th:text="${#dates.format(c.createdOn, #messages.msg('format.datetime2'))}">Created on</h6>
           </div>
-          <div>
+          <div sec:authorize="isAuthenticated()">
             <a class="fas fa-ellipsis-v text-muted" style="font-size: 11px;" data-toggle="dropdown" aria-haspopup="true"
                aria-expanded="false"></a>
 

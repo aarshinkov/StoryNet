@@ -235,4 +235,22 @@ public class StoriesController extends Base
 
     return "redirect:/story/" + ccm.getStoryId();
   }
+
+  @PostMapping(value = "/story/comment/delete")
+  @PreAuthorize("@expressions.isUserOwnerToComment(#commentId, #request)")
+  public String deleteComment(@RequestParam(name = "commentId") Long commentId,
+          @RequestParam(name = "storyId") Long storyId, HttpServletRequest request,
+          RedirectAttributes redirectAttributes)
+  {
+    try
+    {
+
+    }
+    catch (Exception e)
+    {
+
+    }
+
+    return "redirect:/story/" + storyId;
+  }
 }
