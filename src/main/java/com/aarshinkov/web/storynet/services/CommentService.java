@@ -10,4 +10,6 @@ import com.aarshinkov.web.storynet.entities.*;
 public interface CommentService
 {
   CommentEntity getCommentByCommentId(Long commentId) throws Exception;
+
+  CommentEntity deleteComment(Long commentId) throws Exception;
 }

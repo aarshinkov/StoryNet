@@ -31,6 +31,9 @@ public class StoriesController extends Base
   @Autowired
   private StoryService storyService;
 
+  @Autowired
+  private CommentService commentService;
+
   @GetMapping(value = "/stories")
   public String getStories(@RequestParam(name = "page", defaultValue = "1", required = false) Integer page,
           @RequestParam(name = "limit", defaultValue = "5", required = false) Integer limit,
@@ -244,11 +247,13 @@ public class StoriesController extends Base
   {
     try
     {
-
+      CommentEntity deletedComment = commentService.deleteComment(commentId);
+      redirectAttributes.addFlashAttribute("msgSuccess", getMessage("story.comments.delete.success"));
     }
     catch (Exception e)
     {
-
+      LOG.error("Error deleting comment", e);
+      redirectAttributes.addFlashAttribute("msgError", getMessage("story.comments.delete.error"));
     }
 
     return "redirect:/story/" + storyId;

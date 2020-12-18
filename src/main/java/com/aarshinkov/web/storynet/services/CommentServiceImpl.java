@@ -24,4 +24,19 @@ public class CommentServiceImpl implements CommentService
   {
     return commentsRepository.findByCommentId(commentId);
   }
+
+  @Override
+  public CommentEntity deleteComment(Long commentId) throws Exception
+  {
+    CommentEntity comment = commentsRepository.findByCommentId(commentId);
+
+    if (comment == null)
+    {
+      throw new Exception("Comment with ID " + commentId + " does not exist");
+    }
+
+    commentsRepository.delete(comment);
+
+    return comment;
+  }
 }
