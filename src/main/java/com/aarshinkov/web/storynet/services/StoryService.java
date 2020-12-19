@@ -22,6 +22,10 @@ public interface StoryService
 
   StoryEntity deleteStory(Long storyId) throws Exception;
 
+  Long getStoriesCountByCategory(Long categoryId) throws Exception;
+
+  Long getStoriesCount();
+
   List<CommentEntity> getStoryComments(Long storyId, Integer page, Integer limit);
 
   CommentEntity createComment(CommentCreateModel ccm) throws Exception;

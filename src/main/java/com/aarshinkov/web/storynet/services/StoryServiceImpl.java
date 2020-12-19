@@ -213,6 +213,25 @@ public class StoryServiceImpl implements StoryService
   }
 
   @Override
+  public Long getStoriesCountByCategory(Long categoryId) throws Exception
+  {
+    CategoryEntity category = categoriesRepository.findByCategoryId(categoryId);
+
+    if (category == null)
+    {
+      throw new Exception("Category with ID " + categoryId + " does not exist");
+    }
+
+    return storiesRepository.countByCategory(category);
+  }
+
+  @Override
+  public Long getStoriesCount()
+  {
+    return storiesRepository.count();
+  }
+
+  @Override
   public List<CommentEntity> getStoryComments(Long storyId, Integer page, Integer limit)
   {
     try (Connection conn = jdbcTemplate.getDataSource().getConnection();

@@ -3,6 +3,7 @@ package com.aarshinkov.web.storynet.controllers;
 import com.aarshinkov.web.storynet.base.*;
 import com.aarshinkov.web.storynet.collections.*;
 import com.aarshinkov.web.storynet.entities.*;
+import com.aarshinkov.web.storynet.enums.*;
 import com.aarshinkov.web.storynet.models.stories.*;
 import com.aarshinkov.web.storynet.services.*;
 import java.util.*;
@@ -182,6 +183,32 @@ public class StoriesController extends Base
     }
 
     return "redirect:/stories";
+  }
+
+  @GetMapping(value = "/categories/count")
+  public String getCategoriesCount(@RequestParam(name = "currentCat") String currentCategory, Model model) throws Exception
+  {
+    if (StringUtils.isEmpty(currentCategory))
+    {
+      model.addAttribute("isEmpty", 0);
+    }
+    else
+    {
+      model.addAttribute("isEmpty", 1);
+    }
+
+    model.addAttribute("globalStoriesCount", storyService.getStoriesCount());
+
+    model.addAttribute("love", storyService.getStoriesCountByCategory(Categories.LOVE.getValue()));
+    model.addAttribute("teen", storyService.getStoriesCountByCategory(Categories.TEEN.getValue()));
+    model.addAttribute("family", storyService.getStoriesCountByCategory(Categories.FAMILY.getValue()));
+    model.addAttribute("health", storyService.getStoriesCountByCategory(Categories.HEALTH.getValue()));
+    model.addAttribute("education", storyService.getStoriesCountByCategory(Categories.EDUCATION.getValue()));
+    model.addAttribute("sport", storyService.getStoriesCountByCategory(Categories.SPORT.getValue()));
+
+    model.addAttribute("currentCategory", currentCategory);
+
+    return "stories/fragments :: #catoryList";
   }
 
   @GetMapping(value = "/story/comments")

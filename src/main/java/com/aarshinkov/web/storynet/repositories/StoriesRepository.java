@@ -13,4 +13,6 @@ import org.springframework.stereotype.*;
 public interface StoriesRepository extends JpaRepository<StoryEntity, Long>
 {
   StoryEntity findByStoryId(Long storyId);
+
+  Long countByCategory(CategoryEntity category);
 }
