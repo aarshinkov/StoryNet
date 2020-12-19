@@ -22,6 +22,8 @@ public interface StoryService
 
   StoryEntity deleteStory(Long storyId) throws Exception;
 
+  void readStory(Long storyId) throws Exception;
+
   Long getStoriesCountByCategory(Long categoryId) throws Exception;
 
   Long getStoriesCount();

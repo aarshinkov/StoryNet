@@ -213,6 +213,21 @@ public class StoryServiceImpl implements StoryService
   }
 
   @Override
+  public void readStory(Long storyId) throws Exception
+  {
+    StoryEntity story = storiesRepository.findByStoryId(storyId);
+
+    if (story == null)
+    {
+      throw new Exception("Story with ID " + storyId + " does not exist");
+    }
+
+    story.setVisits(story.getVisits() + 1);
+
+    storiesRepository.save(story);
+  }
+
+  @Override
   public Long getStoriesCountByCategory(Long categoryId) throws Exception
   {
     CategoryEntity category = categoriesRepository.findByCategoryId(categoryId);

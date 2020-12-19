@@ -10,6 +10,7 @@ import java.util.*;
 import javax.servlet.http.*;
 import javax.validation.*;
 import org.slf4j.*;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.access.prepost.*;
 import org.springframework.stereotype.*;
@@ -82,6 +83,15 @@ public class StoriesController extends Base
     model.addAttribute("storyCommentsCount", totalCommentsCount);
 
     model.addAttribute("comment", new CommentCreateModel());
+
+    try
+    {
+      storyService.readStory(storyId);
+    }
+    catch (Exception ex)
+    {
+      LOG.error("Error reading story", ex);
+    }
 
     model.addAttribute("globalMenu", "stories");
 
