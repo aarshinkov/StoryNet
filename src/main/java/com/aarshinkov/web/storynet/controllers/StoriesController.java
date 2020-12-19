@@ -208,7 +208,7 @@ public class StoriesController extends Base
 
     model.addAttribute("currentCategory", currentCategory);
 
-    return "stories/fragments :: #catoryList";
+    return "stories/fragments :: #categoryList";
   }
 
   @GetMapping(value = "/story/comments")
