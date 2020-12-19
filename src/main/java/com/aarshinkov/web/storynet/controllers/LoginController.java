@@ -4,6 +4,7 @@ import com.aarshinkov.web.storynet.base.*;
 import com.aarshinkov.web.storynet.entities.*;
 import com.aarshinkov.web.storynet.models.users.*;
 import com.aarshinkov.web.storynet.services.*;
+import javax.servlet.http.*;
 import javax.validation.*;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
@@ -27,10 +28,12 @@ public class LoginController extends Base
   private UserService userService;
 
   @GetMapping(value = "/login")
-  public String prepareLogin(Model model)
+  public String prepareLogin(HttpServletRequest request, Model model)
   {
+    model.addAttribute("badCredentials", request.getParameter("badCredentials") != null);
+
     model.addAttribute("globalMenu", "login");
-    
+
     return "auth/login";
   }
 

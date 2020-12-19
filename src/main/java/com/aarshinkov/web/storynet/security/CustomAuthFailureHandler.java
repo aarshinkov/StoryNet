@@ -22,6 +22,7 @@ public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHand
   public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException
   {
     LOG.error("Authentication failed: " + exception.getMessage());
-    super.onAuthenticationFailure(request, response, exception);
+    response.sendRedirect(request.getContextPath() + "/login?badCredentials");
+//    super.onAuthenticationFailure(request, response, exception);
   }
 }
