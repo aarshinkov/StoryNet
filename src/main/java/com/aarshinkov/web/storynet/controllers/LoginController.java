@@ -51,6 +51,11 @@ public class LoginController extends Base
   public String signup(@ModelAttribute("user") @Valid UserCreateModel ucm,
           BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model)
   {
+    if (userService.isUserExistByEmail(ucm.getEmail()))
+    {
+      bindingResult.rejectValue("email", "signup.email.exist");
+    }
+
     if (!ucm.getPassword().equals(ucm.getConfirmPassword()))
     {
       bindingResult.rejectValue("password", "signup.password.nomatch");
